@@ -2,8 +2,8 @@ package common;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import common.bean.Hotel;
-import common.bean.Review;
+import common.bean.HotelJsonObject;
+import common.bean.ReviewJsonObject;
 import common.parser.ReviewParser;
 
 import java.io.ByteArrayInputStream;
@@ -21,10 +21,10 @@ import java.util.Set;
 
 public class JsonParsingUtil {
 
-    public static List<Hotel> parseHotelJsonFile(String filename) {
+    public static List<HotelJsonObject> parseHotelJsonFile(String filename) {
         filename = "input/hotels.json";
         Gson gson = new Gson();
-        List<Hotel> hotels = new ArrayList<>();
+        List<HotelJsonObject> hotels = new ArrayList<>();
         try {
             JsonReader jsonReader = new JsonReader(new FileReader(filename));
             jsonReader.beginObject();
@@ -33,7 +33,7 @@ public class JsonParsingUtil {
                 if (basicInfo.equals("sr")) {
                     jsonReader.beginArray();
                     while (jsonReader.hasNext()) {
-                        hotels.add(gson.fromJson(jsonReader, Hotel.class));
+                        hotels.add(gson.fromJson(jsonReader, HotelJsonObject.class));
                     }
                     jsonReader.endArray();
                 } else {
@@ -47,7 +47,7 @@ public class JsonParsingUtil {
         return hotels;
     }
 
-    public static List<Review> parseReviewJsonFiles(String fileName) {
+    public static List<ReviewJsonObject> parseReviewJsonFiles(String fileName) {
         ReviewParser reviewParser = new ReviewParser();
         try {
             reviewParser.parse("input/reviews");
@@ -68,7 +68,7 @@ public class JsonParsingUtil {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?currentSchema=final_project", "root", "");
         CallableStatement callableStatement = con.prepareCall("{Call final_project.insertHotels(?,?,?,?,?,?,?,?)}");
-        for (Hotel hotel : parseHotelJsonFile("")) {
+        for (HotelJsonObject hotel : parseHotelJsonFile("")) {
             callableStatement.setInt(1, hotel.getId());
             callableStatement.setString(2, hotel.getName());
             callableStatement.setString(3, hotel.getCountry());
@@ -91,7 +91,7 @@ public class JsonParsingUtil {
 
 
 
-        for (Review review : parseReviewJsonFiles("")) {
+        for (ReviewJsonObject review : parseReviewJsonFiles("")) {
             if (keySet.contains(review.getReviewId()) || review.getReviewId() == null ) {
                 System.out.println(review.getReviewId());
                 continue;

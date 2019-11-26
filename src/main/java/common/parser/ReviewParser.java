@@ -1,7 +1,7 @@
 package common.parser;
 
 import com.google.gson.stream.JsonReader;
-import common.bean.Review;
+import common.bean.ReviewJsonObject;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,12 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ReviewParser {
 
-    private List<Review> reviews;
+    private List<ReviewJsonObject> reviews;
 
     /**
      * parse all json files under a directory, and stored in reviewsBook
@@ -26,7 +25,7 @@ public class ReviewParser {
         reviews = new ArrayList<>();
         List<String> files = readDir(dirPath);
         for (String filepath : files) {
-            List<Review> reviewList = parseSingleJson(filepath);
+            List<ReviewJsonObject> reviewList = parseSingleJson(filepath);
             reviews.addAll(reviewList);
         }
     }
@@ -37,8 +36,8 @@ public class ReviewParser {
      * @param filePath a json filepath
      * @return a List of a hotel's reviews
      */
-    private List<Review> parseSingleJson(String filePath) {
-        List<Review> result = new ArrayList<>();
+    private List<ReviewJsonObject> parseSingleJson(String filePath) {
+        List<ReviewJsonObject> result = new ArrayList<>();
         String hotelId = "";
         try (JsonReader jsonReader = new JsonReader(new FileReader(filePath))) {
             jsonReader.beginObject(); // begin first json object (start with reviewDetails)
@@ -57,7 +56,7 @@ public class ReviewParser {
                                     jsonReader.beginArray();
                                     while (jsonReader.hasNext()) { // in arry
                                         jsonReader.beginObject();
-                                        Review review = new Review();
+                                        ReviewJsonObject review = new ReviewJsonObject();
                                         while (jsonReader.hasNext()) {
                                             String reviewInfoName = jsonReader.nextName();
                                             switch (reviewInfoName) {
@@ -130,14 +129,6 @@ public class ReviewParser {
         } catch (IOException e) {
             System.out.println("Cannot find or open the file: " + e);
         }
-        if (result.size() == 0) {
-            Review noReview = new Review();
-            noReview.setHotelId(hotelId);
-            noReview.setReviewId(null);
-            result.add(noReview);
-        } else {
-            Collections.sort(result);
-        }
         return result;
     }
 
@@ -165,7 +156,7 @@ public class ReviewParser {
         return filePaths;
     }
 
-    public List<Review> getReviews() {
+    public List<ReviewJsonObject> getReviews() {
         return new ArrayList<>(reviews);
     }
 }

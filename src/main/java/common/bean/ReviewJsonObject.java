@@ -3,7 +3,7 @@ package common.bean;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Review implements Comparable<Review> {
+public class ReviewJsonObject {
 
     private String hotelId;
 
@@ -18,8 +18,6 @@ public class Review implements Comparable<Review> {
     private String userNickname = "Anonymous";
 
     private LocalDateTime submissionTime;
-
-    private boolean isRecommended;
 
     public String getHotelId() {
         return hotelId;
@@ -87,42 +85,6 @@ public class Review implements Comparable<Review> {
 
     public void setRatingOverall(int ratingOverall) {
         this.ratingOverall = ratingOverall;
-    }
-
-    public boolean isRecommended() {
-        return isRecommended;
-    }
-
-    public void setRecommended(boolean recommended) {
-        isRecommended = recommended;
-    }
-
-    @Override
-    public int compareTo(Review anotherReview) {
-        int timeComparison = this.submissionTime.compareTo(anotherReview.getSubmissionTime());
-        if (timeComparison == 0) {
-            int nameComparison = userNickname.compareTo(anotherReview.getUserNickname());
-            if (nameComparison == 0) {
-                return reviewId.compareTo(anotherReview.getReviewId());
-            }
-            return nameComparison;
-        }
-        return timeComparison * -1;
-    }
-
-    @Override
-    public String toString() {
-        return null != reviewId
-                ? String.format(
-                "Hotel Id: %s\nReview Id: %s\nRating Overall: %d\nTitle: %s\nReview Text: %s\nUser's Nick Name: %s\nPosted Date: %s\n\n",
-                hotelId,
-                reviewId,
-                ratingOverall,
-                title,
-                reviewText,
-                userNickname,
-                submissionTime.toString())
-                : "This hotel has not been reviewed yet.";
     }
 }
 

@@ -2,7 +2,7 @@ package common.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Hotel {
+public class HotelJsonObject {
 
     @SerializedName("id")
     private int id;

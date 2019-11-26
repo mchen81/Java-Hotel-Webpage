@@ -1,22 +1,22 @@
 package service;
 
-import common.bean.Review;
+import common.bean.ReviewJsonObject;
 
 import java.util.List;
 
 public interface ReviewServiceInterface {
 
-    List<Review> findReviewsByHotelId(String hotelId);
+    List<ReviewJsonObject> findReviewsByHotelId(String hotelId);
 
-    List<Review> findReviewsByUserId(String userId);
+    List<ReviewJsonObject> findReviewsByUserId(String userId);
 
     /**
      * @param review Review Object
      * @return new review's Id
      */
-    String addReview(Review review);
+    String addReview(ReviewJsonObject review);
 
-    void editReview(Review review);
+    void editReview(ReviewJsonObject review);
 
     void removeReview(String reviewId);
 }
