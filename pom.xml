@@ -33,11 +33,24 @@
             <version>8.0.18</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.4.17.v20190418</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.4.17.v20190418</version>
+        </dependency>
     </dependencies>
 
     <properties>
         <maven.compiler.target>1.12</maven.compiler.target>
         <maven.compiler.source>1.12</maven.compiler.source>
     </properties>
+
+
 
 </project>
