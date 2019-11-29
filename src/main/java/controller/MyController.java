@@ -1,5 +1,7 @@
 package controller;
 
+import controller.hotel.HotelSearchingServlet;
+import controller.hotel.HotelServlet;
 import controller.user.LoginServlet;
 import controller.user.RegisterServlet;
 import controller.user.UserProfileServlet;
@@ -17,13 +19,11 @@ public class MyController {
         handler.addServletWithMapping(LoginServlet.class, "/login");
         handler.addServletWithMapping(RegisterServlet.class, "/register");
         handler.addServletWithMapping(UserProfileServlet.class, "/profile");
-
         // hotel
-
+        handler.addServletWithMapping(HotelServlet.class, "/hotel");
+        handler.addServletWithMapping(HotelSearchingServlet.class, "/search");
         // review
-
         // attractions
-
         //
         server.setHandler(handler);
         server.start();
