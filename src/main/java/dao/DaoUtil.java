@@ -1,5 +1,6 @@
 package dao;
 
+import com.google.gson.stream.JsonReader;
 import exceptions.BlobConvertException;
 import exceptions.ConnectionCloseException;
 import exceptions.DBConnectionFailException;
@@ -12,18 +13,12 @@ import java.sql.SQLException;
 
 public class DaoUtil extends FinalProjectDao {
 
-    private static final String driver = "com.mysql.cj.jdbc.Driver";
-
-    private static final String jdbcURL = "jdbc:mysql://localhost:3306/mydb";
-
-    private static final String user = "root";
-
-    private static final String password = "";
+    private static DataSource dataSource = new DataSource();
 
     public static Connection getConnection() {
         try {
-            Class.forName(driver);
-            Connection connection = DriverManager.getConnection(jdbcURL, user, password);
+            Class.forName(dataSource.driver);
+            Connection connection = DriverManager.getConnection(dataSource.jdbcURL, dataSource.user, dataSource.password);
             return connection;
         } catch (ClassNotFoundException e) {
             throw new DBConnectionFailException("Cannot find a driver");
@@ -62,5 +57,49 @@ public class DaoUtil extends FinalProjectDao {
             return new ByteArrayInputStream("".getBytes());
         }
         return new ByteArrayInputStream(text.getBytes());
+    }
+
+    private static class DataSource {
+
+        private String driver;
+
+        private String jdbcURL;
+
+        private String user;
+
+        private String password;
+
+        public DataSource() {
+            loadDBConfig();
+        }
+
+        private void loadDBConfig() {
+            try {
+                JsonReader jsonReader = new JsonReader(new FileReader("input/DatabaseConfig.json"));
+                jsonReader.beginObject();
+                while (jsonReader.hasNext()) {
+                    String jsonName = jsonReader.nextName();
+                    switch (jsonName) {
+                        case "driver":
+                            driver = jsonReader.nextString();
+                            break;
+                        case "jdbcURL":
+                            jdbcURL = jsonReader.nextString();
+                            break;
+                        case "user":
+                            user = jsonReader.nextString();
+                            break;
+                        case "password":
+                            password = jsonReader.nextString();
+                            break;
+                        default:
+                            jsonReader.skipValue();
+                            break;
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Cannot find config");
+            }
+        }
     }
 }
