@@ -60,7 +60,7 @@ public class JsonParsingUtil {
 
     public static void main(String[] args) throws Exception {
         //hotelsIntoDb();
-        //reviewsToDB();
+        reviewsToDB();
     }
 
     public static void hotelsIntoDb() throws Exception {
