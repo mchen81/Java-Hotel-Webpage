@@ -12,12 +12,20 @@ public class ReviewService implements ReviewServiceInterface {
 
     private ReviewDaoInterface reviewDao;
 
+    /**
+     * Key: hotel Id, value: the review list under the hotel, order by submission time
+     */
     private Map<String, TreeSet<Review>> reviewsMapCache;
 
     private Map<String, Review> reviewsCache;
-
+    /**
+     * All review id
+     */
     private Set<String> reviewIdSet;
 
+    /**
+     * for generate random review id
+     */
     private static SecureRandom random = new SecureRandom();
 
     public ReviewService() {
@@ -50,7 +58,13 @@ public class ReviewService implements ReviewServiceInterface {
 
     @Override
     public List<Review> findReviewsByUserId(String userId) {
-        return null; //TODO
+        List<Review> reviews = new ArrayList<>();
+        for (Review review : reviewsCache.values()) {
+            if (userId.equals(String.valueOf(review.getUserId()))) {
+                reviews.add(review);
+            }
+        }
+        return reviews;
     }
 
     @Override
@@ -68,12 +82,10 @@ public class ReviewService implements ReviewServiceInterface {
     public void editReview(Review review) {
         reviewDao.modifyReview(review);
         removeReview(review.getReviewId());
-
         reviewDao.addReview(review);
         reviewIdSet.add(review.getReviewId());
         reviewsCache.put(review.getReviewId(), review);
         reviewsMapCache.get(review.getHotelId()).add(review);
-
         addReview(review);
     }
 
