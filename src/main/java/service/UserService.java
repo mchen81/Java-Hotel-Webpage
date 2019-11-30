@@ -1,6 +1,5 @@
 package service;
 
-import common.SQLErrorCode;
 import dao.UserDao;
 import dao.bean.User;
 import dao.interfaces.UserDaoInterface;
@@ -8,8 +7,6 @@ import exceptions.UserDoesNotExistException;
 import exceptions.UserNameHasExistedException;
 import exceptions.WrongPasswordException;
 import service.interfaces.UserServiceInterface;
-
-import java.sql.SQLException;
 
 public class UserService implements UserServiceInterface {
 
@@ -33,15 +30,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public long register(User user) throws UserNameHasExistedException {
-        try {
-            return userDao.addUser(user);
-        } catch (SQLException e) {
-            if (e.getErrorCode() == SQLErrorCode.DUPLICATE_ENTRY) {
-                throw new UserNameHasExistedException();
-            } else {
-                return 0;
-            }
-        }
+        return userDao.addUser(user);
     }
 
     @Override

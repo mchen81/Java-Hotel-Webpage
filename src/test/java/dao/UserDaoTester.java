@@ -2,31 +2,30 @@ package dao;
 
 import dao.bean.User;
 import dao.interfaces.UserDaoInterface;
+import exceptions.UserNameHasExistedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.sql.SQLException;
 
 public class UserDaoTester {
 
     private UserDaoInterface userDao;
 
     @Before
-    public void setUP() {
+    public void setUp() {
         userDao = new UserDao();
     }
 
     @Test
     public void addUserTest() {
+        User newUser = new User();
+        newUser.setName("Jerry199998");
+        newUser.setKey("0000");
+        newUser.setEmailAddress("default@default.com");
         try {
-            User newUser = new User();
-            newUser.setName("Jerry199998");
-            newUser.setKey("0000");
-            newUser.setEmailAddress("default@default.com");
             userDao.addUser(newUser);
-        } catch (SQLException e) {
-            Assert.assertEquals(1062, e.getErrorCode());
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof UserNameHasExistedException);
         }
     }
 

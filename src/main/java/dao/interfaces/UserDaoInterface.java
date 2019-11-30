@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import dao.bean.User;
+import exceptions.UserNameHasExistedException;
 
 import java.sql.SQLException;
 
@@ -10,9 +11,8 @@ public interface UserDaoInterface {
      *
      * @param user User's Info (id is not needed)
      * @return the new user's Id
-     * @throws SQLException error code would be 1062, duplicate entry
      */
-    long addUser(User user) throws SQLException;
+    long addUser(User user) throws UserNameHasExistedException;
 
     /**
      * @param id

@@ -1,8 +1,10 @@
 package dao;
 
+import common.SQLErrorCode;
 import dao.bean.User;
 import dao.interfaces.UserDaoInterface;
 import exceptions.DBConnectionFailException;
+import exceptions.UserNameHasExistedException;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -17,7 +19,7 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
     private static final String CALL_UPDATE_USER_INFO = "{Call updateUser(?,?,?)}";
 
     @Override
-    public long addUser(User user) throws SQLException {
+    public long addUser(User user) throws UserNameHasExistedException {
         Connection connection = DaoUtil.getConnection();
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_ADD_USER);
@@ -26,6 +28,12 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
             callableStatement.setString(3, user.getEmailAddress());
             callableStatement.execute();
             return callableStatement.getLong(4);
+        } catch (SQLException e) {
+            if (e.getErrorCode() == SQLErrorCode.DUPLICATE_ENTRY) {
+                throw new UserNameHasExistedException();
+            } else {
+                throw new DBConnectionFailException();
+            }
         } finally {
             DaoUtil.closeConnection(connection);
         }
