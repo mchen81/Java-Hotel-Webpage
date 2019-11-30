@@ -98,7 +98,7 @@ public class DaoUtil extends FinalProjectDao {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("Cannot find config");
+                throw new DBConnectionFailException("Cannot load DB config file");
             }
         }
     }

@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 import common.bean.HotelJsonObject;
 import common.bean.ReviewJsonObject;
 import common.parser.ReviewParser;
+import dao.DaoUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileReader;
@@ -85,8 +86,8 @@ public class JsonParsingUtil {
     public static void reviewsToDB() throws Exception {
         Set<String> keySet = new HashSet<>();
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?currentSchema=final_project", "root", "");
-        CallableStatement callableStatement = con.prepareCall("{Call final_project.insertReviews(?,?,?,?,?,?,?)}");
+        Connection con = DaoUtil.getConnection();
+        CallableStatement callableStatement = con.prepareCall("{Call insertReviews(?,?,?,?,?,?,?)}");
 
 
 

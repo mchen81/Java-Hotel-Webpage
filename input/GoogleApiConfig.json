@@ -1,0 +1,5 @@
+{
+  "apikey": "AIzaSyDSYBflIQeFKAGYz9L-kv7pAE1ps6lWGKs",
+  "host": "maps.googleapis.com",
+  "path": "/maps/api/place/textsearch/json"
+}
