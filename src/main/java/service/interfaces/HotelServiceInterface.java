@@ -9,8 +9,4 @@ public interface HotelServiceInterface {
     Hotel findHotelById(String id);
 
     List<Hotel> findHotelsByKeyWords(String city, String name);
-
-    void addHotel(Hotel hotel);
-
-    void deleteHotel(String hotelId);
 }

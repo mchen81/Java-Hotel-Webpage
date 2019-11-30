@@ -38,18 +38,6 @@ public class HotelService implements HotelServiceInterface {
         return result;
     }
 
-    @Override
-    public void addHotel(Hotel hotel) {
-        hotelDao.addHotel(hotel);
-        hotelsCache.put(hotel.getId(), hotel);
-    }
-
-    @Override
-    public void deleteHotel(String hotelId) {
-        hotelDao.deleteHotel(hotelId);
-        hotelsCache.remove(hotelId);
-    }
-
     /**
      * load hotel data into hotels cache
      */

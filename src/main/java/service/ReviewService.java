@@ -17,6 +17,9 @@ public class ReviewService implements ReviewServiceInterface {
      */
     private Map<String, TreeSet<Review>> reviewsMapCache;
 
+    /**
+     * key: review id, values are all reviews
+     */
     private Map<String, Review> reviewsCache;
     /**
      * All review id
@@ -81,12 +84,10 @@ public class ReviewService implements ReviewServiceInterface {
     @Override
     public void editReview(Review review) {
         reviewDao.modifyReview(review);
-        removeReview(review.getReviewId());
-        reviewDao.addReview(review);
-        reviewIdSet.add(review.getReviewId());
-        reviewsCache.put(review.getReviewId(), review);
+        reviewsCache.replace(review.getReviewId(), review);
+        reviewsMapCache.get(review.getHotelId()).removeIf(r -> r.equals(review));
         reviewsMapCache.get(review.getHotelId()).add(review);
-        addReview(review);
+
     }
 
     @Override
