@@ -8,9 +8,14 @@ public interface ReviewDaoInterface {
 
     List<Review> getAllReviews();
 
+    Review getReviewById(String reviewId);
+
     void addReview(Review review);
 
     void modifyReview(Review review);
 
     void deleteReview(String reviewId);
+
+    int getReviewCount();
+
 }

@@ -1,7 +1,6 @@
 package dao;
 
 import com.google.gson.stream.JsonReader;
-import dao.interfaces.FinalProjectDao;
 import exceptions.DBConnectionFailException;
 
 import java.io.FileReader;
@@ -10,7 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DaoUtil extends FinalProjectDao {
+public class DaoUtil {
 
     private static DataSource dataSource = new DataSource();
 
