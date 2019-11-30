@@ -1,6 +1,7 @@
 package dao;
 
 import dao.bean.Hotel;
+import dao.interfaces.FinalProjectDao;
 import dao.interfaces.HotelDaoInterface;
 
 import java.util.ArrayList;

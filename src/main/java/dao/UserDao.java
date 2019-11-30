@@ -2,6 +2,7 @@ package dao;
 
 import common.SQLErrorCode;
 import dao.bean.User;
+import dao.interfaces.FinalProjectDao;
 import dao.interfaces.UserDaoInterface;
 import exceptions.DBConnectionFailException;
 import exceptions.UserNameHasExistedException;
@@ -20,7 +21,7 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
 
     @Override
     public long addUser(User user) throws UserNameHasExistedException {
-        Connection connection = DaoUtil.getConnection();
+        Connection connection = getConnection();
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_ADD_USER);
             callableStatement.setString(1, user.getName());
@@ -35,13 +36,13 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
                 throw new DBConnectionFailException();
             }
         } finally {
-            DaoUtil.closeConnection(connection);
+            closeConnection(connection);
         }
     }
 
     @Override
     public User getUserById(long id) {
-        Connection connection = DaoUtil.getConnection();
+        Connection connection = getConnection();
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_GET_USER_BY_ID);
             callableStatement.setLong(1, id);
@@ -59,13 +60,13 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
         } catch (SQLException e) {
             throw new DBConnectionFailException();
         } finally {
-            DaoUtil.closeConnection(connection);
+            closeConnection(connection);
         }
     }
 
     @Override
     public User getUserByName(String name) {
-        Connection connection = DaoUtil.getConnection();
+        Connection connection = getConnection();
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_GET_USER_BY_NAME);
             callableStatement.setString(1, name);
@@ -83,13 +84,13 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
         } catch (SQLException e) {
             throw new DBConnectionFailException();
         } finally {
-            DaoUtil.closeConnection(connection);
+            closeConnection(connection);
         }
     }
 
     @Override
     public void modifyUserProfile(User user) {
-        Connection connection = DaoUtil.getConnection();
+        Connection connection = getConnection();
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_UPDATE_USER_INFO);
             callableStatement.setLong(1, user.getId());
@@ -99,7 +100,7 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
         } catch (SQLException e) {
             throw new DBConnectionFailException();
         } finally {
-            DaoUtil.closeConnection(connection);
+            closeConnection(connection);
         }
     }
 }
