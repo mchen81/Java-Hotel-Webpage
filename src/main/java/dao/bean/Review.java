@@ -81,12 +81,20 @@ public class Review implements Comparable<Review> {
     }
 
     @Override
-    public int hashCode() {
-        StringBuilder hashCode = new StringBuilder();
-        for (char c : reviewId.toCharArray()) {
-            hashCode.append((int) c);
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
         }
-        return Integer.parseInt(hashCode.toString());
+        if (!(obj instanceof Review)) {
+            return false;
+        }
+        if (reviewId == null || ((Review) obj).getReviewId() == null) {
+            return false;
+        }
+        if (this.reviewId.equals(((Review) obj).getReviewId())) {
+            return true;
+        }
+        return false;
     }
 
     @Override

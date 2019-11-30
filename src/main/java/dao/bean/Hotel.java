@@ -8,8 +8,8 @@ public class Hotel {
     private String state;
     private String city;
     private String address;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     public String getId() {
         return id;
@@ -59,7 +59,7 @@ public class Hotel {
         this.address = address;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
@@ -67,7 +67,7 @@ public class Hotel {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 

@@ -1,5 +1,6 @@
 package service;
 
+import dao.bean.Hotel;
 import dao.bean.Review;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,7 +35,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    public void addReviewTest(){
+    public void addReviewTest() {
         Review review = new Review();
         review.setHotelId("360");
         review.setUserId(1);
@@ -47,4 +48,16 @@ public class ReviewServiceTest {
         System.out.println(reviewId);
     }
 
+    @Test
+    public void reviewEqualTest() {
+        Review review1 = new Review();
+        review1.setReviewId("123456789");
+        Review review2 = new Review();
+        review2.setReviewId("123456789");
+        Review review3 = new Review();
+        review3.setHotelId("9999999");
+        Assert.assertTrue(review1.equals(review2));
+        Assert.assertFalse(review1.equals(new Hotel()));
+        Assert.assertFalse(review3.equals(review1));
+    }
 }

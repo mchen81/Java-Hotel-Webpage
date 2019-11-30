@@ -61,7 +61,8 @@ public class JsonParsingUtil {
 
     public static void main(String[] args) throws Exception {
         //hotelsIntoDb();
-        reviewsToDB();
+        updateHotelDB();
+        //reviewsToDB();
     }
 
     public static void hotelsIntoDb() throws Exception {
@@ -83,17 +84,25 @@ public class JsonParsingUtil {
         callableStatement.executeBatch();
     }
 
+    public static void updateHotelDB() throws Exception {
+        Connection connection = DaoUtil.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{Call updateHotel(?,?,?)}");
+        for (HotelJsonObject hotel : parseHotelJsonFile("")) {
+            callableStatement.setInt(1, hotel.getId());
+            callableStatement.setDouble(2, hotel.getLatitude());
+            callableStatement.setDouble(3, hotel.getLongitude());
+            callableStatement.addBatch();
+        }
+        callableStatement.executeBatch();
+    }
+
     public static void reviewsToDB() throws Exception {
         Set<String> keySet = new HashSet<>();
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DaoUtil.getConnection();
         CallableStatement callableStatement = con.prepareCall("{Call insertReviews(?,?,?,?,?,?,?)}");
-
-
-
-
         for (ReviewJsonObject review : parseReviewJsonFiles("")) {
-            if (keySet.contains(review.getReviewId()) || review.getReviewId() == null ) {
+            if (keySet.contains(review.getReviewId()) || review.getReviewId() == null) {
                 System.out.println(review.getReviewId());
                 continue;
             } else {
@@ -114,10 +123,6 @@ public class JsonParsingUtil {
             }
             callableStatement.addBatch();
         }
-
-
-
-
         callableStatement.executeBatch();
     }
 }
