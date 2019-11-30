@@ -1,7 +1,7 @@
 package controller.hotel;
 
 import dao.bean.Hotel;
-import service.HotelService;
+import service.ServicesSingleton;
 import service.interfaces.HotelServiceInterface;
 
 import javax.servlet.ServletException;
@@ -16,20 +16,14 @@ public class HotelSearchingServlet extends HttpServlet {
     private HotelServiceInterface hotelService;
 
     public HotelSearchingServlet() {
-        hotelService = new HotelService();
+        hotelService = ServicesSingleton.getHotelService();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
         String cityKeyword = request.getParameter("city");
         String nameKeyword = request.getParameter("name");
-
-        List<Hotel> foundHotels =  hotelService.findHotelsByKeyWords(cityKeyword, nameKeyword);
-
+        List<Hotel> foundHotels = hotelService.findHotelsByKeyWords(cityKeyword, nameKeyword);
         // TODO return these hotels
-
-
     }
 }

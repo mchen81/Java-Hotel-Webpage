@@ -19,11 +19,11 @@ public class ReviewDao extends FinalProjectDao implements ReviewDaoInterface {
         System.out.println(reviews.get(1022).getReviewText());
     }
 
-    private static final String SQL_GET_ALL_REVIEWS = "SELECT * FROM FINAL_PROJECT.REVIEW";
+    private static final String SQL_GET_ALL_REVIEWS = "SELECT * FROM REVIEW";
 
-    private static final String SQL_ADD_REVIEW = "INSERT INTO FINAL_PROJECT.REVIEW VALUES(?,?,?,?,?,?,?)";
+    private static final String SQL_ADD_REVIEW = "INSERT INTO REVIEW VALUES(?,?,?,?,?,?,?)";
 
-    private static final String SQL_EDIT_REVIEW = "UPDATE FINAL_PROJECT.REVIEW " +
+    private static final String SQL_EDIT_REVIEW = "UPDATE REVIEW " +
             "SET HOTEL_ID = ? , RANTING = ? , TITLE = ? , REVIEW_TEXT = ? + SUBMIT_TIME = ? " +
             "WHERE REVIEW_ID = ?";
 

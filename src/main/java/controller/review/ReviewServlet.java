@@ -1,8 +1,8 @@
-package controller;
+package controller.review;
 
 import common.producer.JsonProducer;
 import dao.bean.Review;
-import service.ReviewService;
+import service.ServicesSingleton;
 import service.interfaces.ReviewServiceInterface;
 
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ public class ReviewServlet extends HttpServlet {
     private ReviewServiceInterface reviewService;
 
     public ReviewServlet() {
-        reviewService = new ReviewService();
+        reviewService = ServicesSingleton.getReviewService();
     }
 
     @Override
@@ -26,6 +26,5 @@ public class ReviewServlet extends HttpServlet {
         String hotelId = request.getParameter("hotelId");
         List<Review> reviews = reviewService.findReviewsByHotelId(hotelId);
         JsonProducer.produceReviewsJson(reviews);
-
     }
 }

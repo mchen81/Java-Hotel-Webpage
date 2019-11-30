@@ -3,17 +3,18 @@ package dao;
 import dao.bean.Hotel;
 import dao.interfaces.HotelDaoInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HotelDao extends FinalProjectDao implements HotelDaoInterface {
     @Override
     public Hotel getHotelByHotelId(String hotelId) {
-        return null;
+        return new Hotel();
     }
 
     @Override
     public List<Hotel> getAllHotels() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

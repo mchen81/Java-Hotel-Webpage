@@ -11,6 +11,5 @@ public interface UserServiceInterface {
 
     long register(User user) throws UserNameHasExistedException;
 
-    void modifyProfile(User user) throws UserNameHasExistedException;
-
+    void modifyProfile(User user);
 }

@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectionTest {
-    public static void main(String[] args) {
+    public static void testConnection() {
         Connection connection = null;
         try {
             connection = DaoUtil.getConnection();
