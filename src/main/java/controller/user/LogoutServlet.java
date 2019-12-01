@@ -15,8 +15,7 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("userId", 1);
         session.setAttribute("username", "Anonymous");
+        session.setAttribute("lastLoginTime", null);
         // TODO return log out success page
-
-
     }
 }

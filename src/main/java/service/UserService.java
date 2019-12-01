@@ -17,7 +17,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public long login(String username, String password) throws UserDoesNotExistException, WrongPasswordException {
+    public User login(String username, String password) throws UserDoesNotExistException, WrongPasswordException {
         User user = userDao.getUserByName(username);
         String hashedPassword = hashPassword(password);
         if (user == null) {
@@ -25,7 +25,8 @@ public class UserService implements UserServiceInterface {
         } else if (!user.getKey().equals(hashedPassword)) {
             throw new WrongPasswordException();
         }
-        return user.getId();
+        userDao.updateLastLoginTime(user.getId());
+        return user;
     }
 
     @Override

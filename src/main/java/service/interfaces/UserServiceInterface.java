@@ -7,7 +7,7 @@ import exceptions.WrongPasswordException;
 
 public interface UserServiceInterface {
 
-    long login(String username, String password) throws UserDoesNotExistException, WrongPasswordException;
+    User login(String username, String password) throws UserDoesNotExistException, WrongPasswordException;
 
     long register(User user) throws UserNameHasExistedException;
 

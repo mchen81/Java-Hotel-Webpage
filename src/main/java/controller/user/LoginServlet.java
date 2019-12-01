@@ -1,5 +1,6 @@
 package controller.user;
 
+import dao.bean.User;
 import exceptions.UserDoesNotExistException;
 import exceptions.WrongPasswordException;
 import service.UserService;
@@ -37,9 +38,11 @@ public class LoginServlet extends HttpServlet {
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            userId = userService.login(username, password);
+            User user = userService.login(username, password);
+            userId = user.getId();
             session.setAttribute("userId", userId);
             session.setAttribute("username", username);
+            session.setAttribute("lastLoginTime", user.getLastLoginTime());
             // lead to home page with session
         } catch (UserDoesNotExistException e) {
             // TODO return user does not exist by ajax
