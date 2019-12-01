@@ -1,5 +1,6 @@
 package service;
 
+import dao.bean.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,10 +18,10 @@ public class UserServiceTester {
     @Test
     public void loginTest() {
         try {
-            long userId1 = userService.login("Lynda", "0000");
-            Assert.assertEquals(2l, userId1);
-            long userId2 = userService.login("Bill", "0000");
-            Assert.assertEquals(37l, userId2);
+            User user1 = userService.login("Lynda", "0000");
+            Assert.assertEquals(2l, user1.getId());
+            User user2 = userService.login("Bill", "0000");
+            Assert.assertEquals(37l, user2.getId());
         } catch (Exception e) {
             System.out.println(e);
             Assert.fail("Login fail");
