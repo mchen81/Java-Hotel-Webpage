@@ -4,7 +4,7 @@ import common.SQLErrorCode;
 import dao.bean.User;
 import dao.interfaces.FinalProjectDao;
 import dao.interfaces.UserDaoInterface;
-import exceptions.DBConnectionFailException;
+import exceptions.QueryException;
 import exceptions.UserNameHasExistedException;
 
 import java.sql.CallableStatement;
@@ -18,6 +18,7 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
     private static final String CALL_GET_USER_BY_ID = "{Call getUserById(?)}";
     private static final String CALL_GET_USER_BY_NAME = "{Call getUserByName(?)}";
     private static final String CALL_UPDATE_USER_INFO = "{Call updateUser(?,?,?)}";
+    private static final String CALL_UPDATE_LAST_LOGIN_TIME = "{Call updateLastLoginTime(?)}";
 
     @Override
     public long addUser(User user) throws UserNameHasExistedException {
@@ -33,7 +34,7 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
             if (e.getErrorCode() == SQLErrorCode.DUPLICATE_ENTRY) {
                 throw new UserNameHasExistedException();
             } else {
-                throw new DBConnectionFailException();
+                throw new QueryException(e.getErrorCode());
             }
         } finally {
             closeConnection(connection);
@@ -50,15 +51,16 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
             if (resultSet.next()) {
                 User user = new User();
                 user.setId(id);
-                user.setEmailAddress(resultSet.getString("EMAIL"));
-                user.setKey(resultSet.getString("KEY"));
-                user.setName(resultSet.getString("USER_NAME"));
+                user.setName(resultSet.getString(2));
+                user.setKey(resultSet.getString(3));
+                user.setEmailAddress(resultSet.getString(4));
+                user.setLastLoginTime(resultSet.getTimestamp(5));
                 return user;
             } else {
                 return null;
             }
         } catch (SQLException e) {
-            throw new DBConnectionFailException();
+            throw new QueryException(e.getErrorCode());
         } finally {
             closeConnection(connection);
         }
@@ -77,12 +79,13 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
                 user.setName(resultSet.getString(2));
                 user.setKey(resultSet.getString(3));
                 user.setEmailAddress(resultSet.getString(4));
+                user.setLastLoginTime(resultSet.getTimestamp(5));
                 return user;
             } else {
                 return null;
             }
         } catch (SQLException e) {
-            throw new DBConnectionFailException();
+            throw new QueryException(e.getErrorCode());
         } finally {
             closeConnection(connection);
         }
@@ -98,7 +101,21 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
             callableStatement.setString(3, user.getEmailAddress());
             callableStatement.execute();
         } catch (SQLException e) {
-            throw new DBConnectionFailException();
+            throw new QueryException(e.getErrorCode());
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
+    @Override
+    public void updateLastLoginTime(long id) {
+        Connection connection = getConnection();
+        try {
+            CallableStatement callableStatement = connection.prepareCall(CALL_UPDATE_LAST_LOGIN_TIME);
+            callableStatement.setLong(1, id);
+            callableStatement.execute();
+        } catch (SQLException e) {
+            throw new QueryException(e.getErrorCode());
         } finally {
             closeConnection(connection);
         }

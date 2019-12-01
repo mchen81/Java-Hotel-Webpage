@@ -60,4 +60,9 @@ public class UserDaoTester {
         Assert.assertEquals(newPassword, user2.getKey());
         Assert.assertEquals(newEmail, user2.getEmailAddress());
     }
+
+    @Test
+    public void updateLastLoginTimeTest() {
+        userDao.updateLastLoginTime(2);
+    }
 }

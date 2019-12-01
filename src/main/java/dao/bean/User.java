@@ -1,5 +1,7 @@
 package dao.bean;
 
+import java.sql.Timestamp;
+
 public class User {
 
     private long id;
@@ -9,6 +11,8 @@ public class User {
     private String key;
 
     private String emailAddress;
+
+    private Timestamp lastLoginTime;
 
     public long getId() {
         return id;
@@ -40,5 +44,13 @@ public class User {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getLastLoginTime() {
+        return null == lastLoginTime ? null : lastLoginTime.toString();
+    }
+
+    public void setLastLoginTime(Timestamp lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }
