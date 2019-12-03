@@ -1,4 +1,4 @@
-package controller.user;
+package controller.servlets.user;
 
 import dao.bean.User;
 import exceptions.UserDoesNotExistException;

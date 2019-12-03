@@ -1,4 +1,4 @@
-package controller.review;
+package controller.servlets.review;
 
 import common.producer.JsonProducer;
 import dao.bean.Review;

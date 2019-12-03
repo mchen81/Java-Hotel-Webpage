@@ -1,31 +1,50 @@
 package controller;
 
-import controller.hotel.HotelSearchingServlet;
-import controller.hotel.HotelServlet;
-import controller.user.LoginServlet;
-import controller.user.RegisterServlet;
-import controller.user.UserProfileServlet;
+import controller.servlets.hotel.HotelSearchingServlet;
+import controller.servlets.hotel.HotelServlet;
+import controller.servlets.user.RegisterServlet;
+import controller.servlets.user.UserProfileServlet;
+import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+
+import java.nio.file.Paths;
 
 public class MyController {
 
-    public static final int PORT = 80;
+    public static final int PORT = 8080;
 
     public MyController() throws Exception {
         Server server = new Server(PORT);
-        ServletHandler handler = new ServletHandler();
+        ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        // Set Context Handler
+        String resourceBaseDir = Paths.get("static").toString();
+        contextHandler.setResourceBase(resourceBaseDir);
+        ServletHolder holder = new ServletHolder("default", DefaultServlet.class);
+        holder.setInitParameter("dirAllowed", "false");
+        contextHandler.addServlet(holder, "/");
+        // set velocity:
+        // initialize Velocity
+        VelocityEngine velocity = new VelocityEngine();
+        velocity.init();
+        // set velocity as an attribute of the context so that we can access it
+        // from servlets
+        contextHandler.setContextPath("/");
+        contextHandler.setAttribute("templateEngine", velocity);
+        // servlets:
         // users
-        handler.addServletWithMapping(LoginServlet.class, "/login");
-        handler.addServletWithMapping(RegisterServlet.class, "/register");
-        handler.addServletWithMapping(UserProfileServlet.class, "/profile");
+        //contextHandler.addServlet(LoginServlet.class, "/login");
+        contextHandler.addServlet(RegisterServlet.class, "/register");
+        contextHandler.addServlet(UserProfileServlet.class, "/profile");
         // hotel
-        handler.addServletWithMapping(HotelServlet.class, "/hotel");
-        handler.addServletWithMapping(HotelSearchingServlet.class, "/search");
+        contextHandler.addServlet(HotelServlet.class, "/hotel");
+        contextHandler.addServlet(HotelSearchingServlet.class, "/search");
         // review
         // attractions
         //
-        server.setHandler(handler);
+        server.setHandler(contextHandler);
         server.start();
         server.join();
     }
