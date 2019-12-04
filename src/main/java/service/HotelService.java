@@ -30,8 +30,10 @@ public class HotelService implements HotelServiceInterface {
     @Override
     public List<Hotel> findHotelsByKeyWords(String city, String name) {
         List<Hotel> result = new ArrayList<>();
+        boolean cityIsEmpty = null == city || city.isBlank();
+        boolean nameIsEmpty = null == name || name.isBlank();
         for (Hotel hotel : hotelsCache.values()) {
-            if (hotel.getCity().equals(city) && hotel.getName().contains(name)) {
+            if ((cityIsEmpty || hotel.getCity().equals(city)) && (nameIsEmpty || hotel.getName().contains(name))) {
                 result.add(hotel);
             }
         }

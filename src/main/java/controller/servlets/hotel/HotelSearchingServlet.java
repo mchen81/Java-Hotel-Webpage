@@ -25,7 +25,8 @@ public class HotelSearchingServlet extends MyHttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // return json
         String cityKeyword = request.getParameter("city");
-        String nameKeyword = request.getParameter("name");
+        String nameKeyword = request.getParameter("hotelName");
+
         List<Hotel> foundHotels = hotelService.findHotelsByKeyWords(cityKeyword, nameKeyword);
         setJsonResponse(response);
         PrintWriter out = response.getWriter();
