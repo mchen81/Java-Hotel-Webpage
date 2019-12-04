@@ -8,7 +8,9 @@ public class User {
 
     private String name;
 
-    private String key;
+    private String hashPass;
+
+    private String salt;
 
     private String emailAddress;
 
@@ -30,12 +32,20 @@ public class User {
         this.name = name;
     }
 
-    public String getKey() {
-        return key;
+    public String getHashPass() {
+        return hashPass;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setHashPass(String hashPass) {
+        this.hashPass = hashPass;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getEmailAddress() {

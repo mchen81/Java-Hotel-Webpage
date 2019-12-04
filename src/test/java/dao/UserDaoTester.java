@@ -20,7 +20,7 @@ public class UserDaoTester {
     public void addUserTest() {
         User newUser = new User();
         newUser.setName("Jerry199998");
-        newUser.setKey("0000");
+        newUser.setHashPass("0000");
         newUser.setEmailAddress("default@default.com");
         try {
             userDao.addUser(newUser);
@@ -33,7 +33,7 @@ public class UserDaoTester {
     public void getUserByIdTest() {
         User user = userDao.getUserById(1);
         Assert.assertEquals("Anonymous", user.getName());
-        Assert.assertEquals("0000", user.getKey());
+        Assert.assertEquals("0000", user.getHashPass());
         Assert.assertEquals("defalut@default.com", user.getEmailAddress());
     }
 
@@ -42,7 +42,7 @@ public class UserDaoTester {
         User user = userDao.getUserByName("J");
         Assert.assertEquals(13, user.getId());
         Assert.assertEquals("J", user.getName());
-        Assert.assertEquals("0000", user.getKey());
+        Assert.assertEquals("0000", user.getHashPass());
         Assert.assertEquals("defalut@default.com", user.getEmailAddress());
     }
 
@@ -53,11 +53,11 @@ public class UserDaoTester {
         User user = new User();
         user.setId(747);
         user.setName("Jerry2222");// not change
-        user.setKey(newPassword);
+        user.setHashPass(newPassword);
         user.setEmailAddress(newEmail);
         userDao.modifyUserProfile(user);
         User user2 = userDao.getUserByName("Jerry");
-        Assert.assertEquals(newPassword, user2.getKey());
+        Assert.assertEquals(newPassword, user2.getHashPass());
         Assert.assertEquals(newEmail, user2.getEmailAddress());
     }
 

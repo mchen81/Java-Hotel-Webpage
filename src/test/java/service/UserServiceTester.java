@@ -1,5 +1,6 @@
 package service;
 
+import controller.servlets.user.UserBo;
 import dao.bean.User;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,16 +19,21 @@ public class UserServiceTester {
     @Test
     public void loginTest() {
         try {
-            User user1 = userService.login("Lynda", "0000");
-            Assert.assertEquals(2l, user1.getId());
-            User user2 = userService.login("Bill", "0000");
-            Assert.assertEquals(37l, user2.getId());
+            User user1 = userService.login("User09999", "x1234");
         } catch (Exception e) {
             System.out.println(e);
             Assert.fail("Login fail");
         }
     }
 
-    void loginFailTest() {
+    @Test
+    public void addNewUserTest() throws Exception {
+
+        UserBo userBo = new UserBo();
+        userBo.setUsername("User09999");
+        userBo.setPassword("x1234");
+        userBo.setEmail("bnb1083@gmail.com");
+        userService.register(userBo);
+
     }
 }

@@ -1,5 +1,6 @@
 package service;
 
+import common.RandomNumberUtil;
 import dao.ReviewDao;
 import dao.bean.Review;
 import dao.interfaces.ReviewDaoInterface;
@@ -100,11 +101,7 @@ public class ReviewService implements ReviewServiceInterface {
     }
 
     private String generateNewReviewId() {
-        StringBuilder reviewId = new StringBuilder();
-        String text = "1234567890qwertyuiopasdfghjklzxcvbnm";
-        for (int i = 0; i < 24; i++) {
-            reviewId.append(text.charAt(random.nextInt(36)));
-        }
+        String reviewId = RandomNumberUtil.generateRandomString(24);
         if (reviewIdSet.contains(reviewId.toString())) {
             return generateNewReviewId();
         }

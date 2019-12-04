@@ -28,10 +28,10 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // do register
-        User user = new User();
-        user.setName(request.getParameter("username"));
-        user.setKey(request.getParameter("password"));
-        user.setEmailAddress(request.getParameter("email"));
+        UserBo user = new UserBo();
+        user.setUsername(request.getParameter("username"));
+        user.setPassword(request.getParameter("password"));
+        user.setEmail(request.getParameter("email"));
         PrintWriter out = response.getWriter();
         try {
             userService.register(user);

@@ -16,6 +16,7 @@ public class DaoUtil {
     public static Connection getConnection() {
         try {
             Class.forName(dataSource.driver);
+            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             Connection connection = DriverManager.getConnection(dataSource.jdbcURL, dataSource.user, dataSource.password);
             return connection;
         } catch (ClassNotFoundException e) {

@@ -21,20 +21,22 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
     private static final String CALL_UPDATE_LAST_LOGIN_TIME = "{Call updateLastLoginTime(?)}";
 
     @Override
-    public long addUser(User user) throws UserNameHasExistedException {
+    public void addUser(User user) throws UserNameHasExistedException {
         Connection connection = getConnection();
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_ADD_USER);
             callableStatement.setString(1, user.getName());
-            callableStatement.setString(2, user.getKey());
-            callableStatement.setString(3, user.getEmailAddress());
-            callableStatement.execute();
-            return callableStatement.getLong(4);
+            callableStatement.setString(2, user.getHashPass());
+            callableStatement.setString(3, user.getSalt());
+            callableStatement.setString(4, user.getEmailAddress());
+            callableStatement.executeUpdate();
         } catch (SQLException e) {
             if (e.getErrorCode() == SQLErrorCode.DUPLICATE_ENTRY) {
                 throw new UserNameHasExistedException();
             } else {
+                System.out.println(e.getMessage());
                 throw new QueryException(e.getErrorCode());
+
             }
         } finally {
             closeConnection(connection);
@@ -52,9 +54,10 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
                 User user = new User();
                 user.setId(id);
                 user.setName(resultSet.getString(2));
-                user.setKey(resultSet.getString(3));
-                user.setEmailAddress(resultSet.getString(4));
-                user.setLastLoginTime(resultSet.getTimestamp(5));
+                user.setHashPass(resultSet.getString(3));
+                user.setSalt(resultSet.getString(4));
+                user.setEmailAddress(resultSet.getString(5));
+                user.setLastLoginTime(resultSet.getTimestamp(6));
                 return user;
             } else {
                 return null;
@@ -77,9 +80,10 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
                 User user = new User();
                 user.setId(resultSet.getLong(1));
                 user.setName(resultSet.getString(2));
-                user.setKey(resultSet.getString(3));
-                user.setEmailAddress(resultSet.getString(4));
-                user.setLastLoginTime(resultSet.getTimestamp(5));
+                user.setHashPass(resultSet.getString(3));
+                user.setSalt(resultSet.getString(4));
+                user.setEmailAddress(resultSet.getString(5));
+                user.setLastLoginTime(resultSet.getTimestamp(6));
                 return user;
             } else {
                 return null;
@@ -97,7 +101,7 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_UPDATE_USER_INFO);
             callableStatement.setLong(1, user.getId());
-            callableStatement.setString(2, user.getKey());
+            callableStatement.setString(2, user.getHashPass());
             callableStatement.setString(3, user.getEmailAddress());
             callableStatement.execute();
         } catch (SQLException e) {

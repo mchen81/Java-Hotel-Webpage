@@ -12,7 +12,7 @@ public interface UserDaoInterface {
      * @param user User's Info (id is not needed)
      * @return the new user's Id
      */
-    long addUser(User user) throws UserNameHasExistedException;
+    void addUser(User user) throws UserNameHasExistedException;
 
     /**
      * @param id

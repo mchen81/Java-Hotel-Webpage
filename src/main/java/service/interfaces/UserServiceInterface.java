@@ -1,5 +1,6 @@
 package service.interfaces;
 
+import controller.servlets.user.UserBo;
 import dao.bean.User;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserNameHasExistedException;
@@ -9,7 +10,7 @@ public interface UserServiceInterface {
 
     User login(String username, String password) throws UserDoesNotExistException, WrongPasswordException;
 
-    long register(User user) throws UserNameHasExistedException;
+    void register(UserBo userBo) throws UserNameHasExistedException;
 
     void modifyProfile(User user);
 }
