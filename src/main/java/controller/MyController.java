@@ -2,6 +2,8 @@ package controller;
 
 import controller.servlets.hotel.HotelSearchingServlet;
 import controller.servlets.hotel.HotelServlet;
+import controller.servlets.user.LoginServlet;
+import controller.servlets.user.LogoutServlet;
 import controller.servlets.user.RegisterServlet;
 import controller.servlets.user.UserProfileServlet;
 import org.apache.velocity.app.VelocityEngine;
@@ -35,7 +37,8 @@ public class MyController {
         contextHandler.setAttribute("templateEngine", velocity);
         // servlets:
         // users
-        //contextHandler.addServlet(LoginServlet.class, "/login");
+        contextHandler.addServlet(LoginServlet.class, "/login");
+        contextHandler.addServlet(LogoutServlet.class, "/logout");
         contextHandler.addServlet(RegisterServlet.class, "/register");
         contextHandler.addServlet(UserProfileServlet.class, "/profile");
         // hotel

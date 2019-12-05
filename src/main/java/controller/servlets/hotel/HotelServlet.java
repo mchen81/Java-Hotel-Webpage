@@ -11,7 +11,7 @@ public class HotelServlet extends MyHttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        initServlet(request);
+        initVelocityEngine(request);
         setBasicHtmlResponse(response);
         setReturnHtml("HomePage");
         addAttribute("name", "Jerry");

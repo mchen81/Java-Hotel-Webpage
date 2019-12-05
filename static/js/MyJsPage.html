@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p>Click the button to get a time-based greeting.</p>
+<button onclick="myFunction()">Try it</button>
+
+
+
+<script>alert('Hello!')</script>
+
+<p id="demo"></p>
+<script>
+    function myFunction() {
+        var x = "";
+        var time = new Date().getHours();
+        if (time < 20) {
+            x = "Good day";
+        } else {
+            x = "Good evening";
+        }
+        document.getElementById("demo").innerHTML = x;
+    }
+</script>
+
+
+<h1>Javascript Example</h1>
+<p id="message">This message will change if you click the button.</p>
+<input type="submit" onclick="document.getElementById('message').innerHTML = 'The message changed!'">
+
+</body>
+</html>

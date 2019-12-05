@@ -13,9 +13,9 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //
         HttpSession session = request.getSession();
-        session.setAttribute("userId", 1);
-        session.setAttribute("username", "Anonymous");
+        session.setAttribute("userId", null);
+        session.setAttribute("username", null);
         session.setAttribute("lastLoginTime", null);
-        // TODO return log out success page
+        response.sendRedirect("/");
     }
 }

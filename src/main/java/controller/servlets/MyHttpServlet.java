@@ -23,7 +23,7 @@ public abstract class MyHttpServlet extends HttpServlet {
     private static final String prefix = "static/html/";
     private static final String suffix = ".html";
 
-    protected void initServlet(HttpServletRequest request) {
+    protected void initVelocityEngine(HttpServletRequest request) {
         context = new VelocityContext();
         engine = (VelocityEngine) request.getServletContext().getAttribute("templateEngine");
         stringWriter = new StringWriter();

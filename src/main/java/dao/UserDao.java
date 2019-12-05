@@ -74,7 +74,7 @@ public class UserDao extends FinalProjectDao implements UserDaoInterface {
         Connection connection = getConnection();
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_GET_USER_BY_NAME);
-            callableStatement.setString(1, name);
+            callableStatement.setString("I_USER_NAME", name);
             ResultSet resultSet = callableStatement.executeQuery();
             if (resultSet.next()) {
                 User user = new User();

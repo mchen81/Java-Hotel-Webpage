@@ -16,14 +16,14 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="https://www.b-cube.in/wp-content/uploads/2014/05/aditya-300x177.jpg" id="icon" alt="User Icon" />
+            <img src="https://www.b-cube.in/wp-content/uploads/2014/05/aditya-300x177.jpg" id="icon" alt="User Icon"/>
             <h1>Log in</h1>
         </div>
 
         <!-- Login Form -->
-        <form>
-            <input type="text" id="login" class="fadeIn second" name="login" placeholder="username">
-            <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+        <form action="/login" method="post">
+            <input type="text" name="username" id="username" class="fadeIn second" placeholder="username">
+            <input type="password" name="password" id="password" class="fadeIn third" placeholder="password">
             <input type="submit" class="fadeIn fourth" value="Log In">
         </form>
 
