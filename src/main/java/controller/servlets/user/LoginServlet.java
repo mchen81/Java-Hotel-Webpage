@@ -1,5 +1,6 @@
 package controller.servlets.user;
 
+import controller.servlets.MyHttpServlet;
 import dao.bean.User;
 import exceptions.UserDoesNotExistException;
 import exceptions.WrongPasswordException;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends MyHttpServlet {
 
     public static final int ANONYMOUS = 1;
 
@@ -24,15 +25,20 @@ public class LoginServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        initServlet(request);
         HttpSession session = request.getSession();
-        // show login page
-        // buffer read html page
+        if (session.getAttribute("userID") != null) {
+            response.sendRedirect("/index");
+        }
+        setBasicHtmlResponse(response);
+        setReturnHtml("Login");
+        outPutHtml(response);
+
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        initServlet(request);
         HttpSession session = request.getSession();
-        // get user name and password
-        // try { call user service login }
         PrintWriter out = response.getWriter();
         long userId = ANONYMOUS;
         try {
@@ -43,12 +49,16 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userId", userId);
             session.setAttribute("username", username);
             session.setAttribute("lastLoginTime", user.getLastLoginTime());
+            response.sendRedirect("/login");
             // lead to home page with session
         } catch (UserDoesNotExistException e) {
+            addAttribute("message", "The User name does not exist");
             // TODO return user does not exist by ajax
         } catch (WrongPasswordException e) {
+            addAttribute("message", "Password does not match the username");
             // TODO return wrong password by ajax
         } catch (Exception e) {
+            addAttribute("message", "Please input again");
             // TODO return login fail, please input again by ajax
         }
         response.setStatus(HttpServletResponse.SC_OK);
