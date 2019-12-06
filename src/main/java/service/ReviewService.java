@@ -22,21 +22,16 @@ public class ReviewService implements ReviewServiceInterface {
      * key: review id, values are all reviews
      */
     private Map<String, Review> reviewsCache;
-    /**
-     * All review id
-     */
-    private Set<String> reviewIdSet;
 
-    /**
-     * for generate random review id
-     */
-    private static SecureRandom random = new SecureRandom();
+
+    private Map<String, Rating> hotelsAvgRatingMap;
+
 
     public ReviewService() {
         reviewDao = new ReviewDao();
         reviewsMapCache = new HashMap<>();
         reviewsCache = new HashMap<>();
-        reviewIdSet = new HashSet<>();
+        hotelsAvgRatingMap = new HashMap<>();
         loadReviewsInfo();
     }
 
@@ -45,12 +40,15 @@ public class ReviewService implements ReviewServiceInterface {
         for (Review review : reviews) {
             if (reviewsMapCache.containsKey(review.getHotelId())) {
                 reviewsMapCache.get(review.getHotelId()).add(review);
+                hotelsAvgRatingMap.get(review.getHotelId()).add(review.getRatingOverall());
             } else {
                 List<Review> newList = new ArrayList<>();
                 newList.add(review);
                 reviewsMapCache.put(review.getHotelId(), new TreeSet<>(newList));
+                Rating rating = new Rating(review.getRatingOverall());
+                hotelsAvgRatingMap.put(review.getHotelId(), rating);
+
             }
-            reviewIdSet.add(review.getReviewId());
             reviewsCache.put(review.getReviewId(), review);
         }
     }
@@ -76,19 +74,21 @@ public class ReviewService implements ReviewServiceInterface {
         String reviewId = generateNewReviewId();
         review.setReviewId(reviewId);
         reviewDao.addReview(review);
-        reviewIdSet.add(reviewId);
         reviewsCache.put(reviewId, review);
         reviewsMapCache.get(review.getHotelId()).add(review);
+        hotelsAvgRatingMap.get(review.getHotelId()).add(review.getRatingOverall());
         return reviewId;
     }
 
     @Override
     public void editReview(Review review) {
+
+        double originRating = reviewsCache.get(review.getReviewId()).getRatingOverall();
         reviewDao.modifyReview(review);
         reviewsCache.replace(review.getReviewId(), review);
         reviewsMapCache.get(review.getHotelId()).removeIf(r -> r.equals(review));
         reviewsMapCache.get(review.getHotelId()).add(review);
-
+        hotelsAvgRatingMap.get(review.getHotelId()).modify(originRating, review.getRatingOverall());
     }
 
     @Override
@@ -97,14 +97,43 @@ public class ReviewService implements ReviewServiceInterface {
         Review removedReview = reviewsCache.get(reviewId);
         reviewsCache.remove(removedReview);
         reviewsMapCache.get(removedReview.getHotelId()).removeIf(r -> r.equals(removedReview));
-        reviewIdSet.remove(reviewId);
+        hotelsAvgRatingMap.get(removedReview.getHotelId()).delete(removedReview.getRatingOverall());
     }
 
     private String generateNewReviewId() {
         String reviewId = RandomNumberUtil.generateRandomString(24);
-        if (reviewIdSet.contains(reviewId.toString())) {
+        if (reviewsCache.keySet().contains(reviewId.toString())) {
             return generateNewReviewId();
         }
         return reviewId.toString();
+    }
+
+    private static class Rating {
+        private double number;
+        private double sum;
+
+        public Rating(double firstRating) {
+            number = 1;
+            sum = firstRating;
+        }
+
+        private double getAvgRating() {
+            return sum / number;
+        }
+
+        private void add(double rating) {
+            sum += rating;
+            number++;
+        }
+
+        private void delete(double rating) {
+            sum -= rating;
+            number--;
+        }
+
+        private void modify(double origin, double newRating) {
+            sum = sum - origin + newRating;
+        }
+
     }
 }
