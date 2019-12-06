@@ -19,4 +19,6 @@ public interface ReviewServiceInterface {
     void editReview(Review review);
 
     void removeReview(String reviewId);
+
+    double getHotelAvgRating(String hotelId);
 }
