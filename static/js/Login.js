@@ -1,16 +1,16 @@
-function searchHotel(){
-
-
-    var xhttp = new XMLHttpRequest();
-
-    var city = document.getElementById("city").value;
-    var hotelName = document.getElementById("hotelName").value;
-
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("hotelInfo").innerHTML = this.responseText;
-        }
-    };
-    xhttp.open("GET", "search?city=" + city + "&hotelName=" + hotelName, true);
-    xhttp.send();
+function login() {
+    var myusername = document.getElementById('username').value;
+    var mypassword = document.getElementById('password').value;
+    console.log(username + password);
+    fetch('/login', {
+        method: 'post',
+        body: ('username=' + myusername + '&password=' + mypassword)
+    }).then(res => res.json())
+        .then(data => {
+        console.log(data);
+        document.getElementById("message").innerHTML = data.message;
+    }).catch(err => {
+        console.log('error happen: ');
+        console.log(err);
+    });
 }

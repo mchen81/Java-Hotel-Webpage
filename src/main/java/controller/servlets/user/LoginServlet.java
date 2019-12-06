@@ -1,5 +1,6 @@
 package controller.servlets.user;
 
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import controller.servlets.MyHttpServlet;
 import dao.bean.User;
@@ -24,6 +25,8 @@ public class LoginServlet extends MyHttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println(request.getParameter("username"));
+
         initVelocityEngine(request);
         HttpSession session = request.getSession();
         if (session.getAttribute("userId") != null && !session.getAttribute("userId").equals(Long.valueOf(ANONYMOUS))) {
@@ -41,6 +44,7 @@ public class LoginServlet extends MyHttpServlet {
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
+            System.out.println(username + password);
             User user = userService.login(username, password);
             userId = user.getId();
             session.setAttribute("userId", userId);
@@ -48,12 +52,16 @@ public class LoginServlet extends MyHttpServlet {
             session.setAttribute("lastLoginTime", user.getLastLoginTime());
             response.sendRedirect("/");
         } catch (WrongPasswordException | UserDoesNotExistException e) {
-            setJsonResponse(response);
             JsonWriter jsonWriter = new JsonWriter(response.getWriter());
             jsonWriter.beginObject();
             jsonWriter.name("success").value(false);
             jsonWriter.name("message").value(e.getMessage());
             jsonWriter.endObject();
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("message", "error happen");
+            response.getWriter().println(jsonObject);
             response.setStatus(HttpServletResponse.SC_OK);
         }
     }
