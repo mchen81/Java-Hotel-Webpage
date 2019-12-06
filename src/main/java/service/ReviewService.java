@@ -100,6 +100,11 @@ public class ReviewService implements ReviewServiceInterface {
         hotelsAvgRatingMap.get(removedReview.getHotelId()).delete(removedReview.getRatingOverall());
     }
 
+    @Override
+    public double getHotelAvgRating(String hotelId) {
+        return hotelsAvgRatingMap.get(hotelId).getAvgRating();
+    }
+
     private String generateNewReviewId() {
         String reviewId = RandomNumberUtil.generateRandomString(24);
         if (reviewsCache.keySet().contains(reviewId.toString())) {
