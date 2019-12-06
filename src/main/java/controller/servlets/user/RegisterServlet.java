@@ -1,5 +1,7 @@
 package controller.servlets.user;
 
+import com.google.gson.stream.JsonWriter;
+import controller.servlets.MyHttpServlet;
 import dao.bean.User;
 import exceptions.UserNameHasExistedException;
 import service.UserService;
@@ -12,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends MyHttpServlet {
 
     private UserServiceInterface userService;
 
@@ -22,7 +24,7 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // return register page
+        // TODO
     }
 
     @Override
@@ -32,12 +34,17 @@ public class RegisterServlet extends HttpServlet {
         user.setUsername(request.getParameter("username"));
         user.setPassword(request.getParameter("password"));
         user.setEmail(request.getParameter("email"));
-        PrintWriter out = response.getWriter();
+        setJsonResponse(response);
+        JsonWriter jsonWriter = new JsonWriter(response.getWriter());
         try {
             userService.register(user);
-            // TODO return register success and go to home page
+            jsonWriter.beginObject().name("success").value(true).endObject();
         } catch (UserNameHasExistedException e) {
-            // TODO return user name has exist by ajax;
+            jsonWriter.beginObject();
+            jsonWriter.name("success").value(false);
+            jsonWriter.name("message").value(e.getMessage());
+            jsonWriter.endObject();
         }
+        response.sendRedirect("/");
     }
 }
