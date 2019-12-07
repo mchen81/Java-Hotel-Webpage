@@ -44,6 +44,7 @@ public class RegisterServlet extends MyHttpServlet {
             jsonWriter.name("success").value(false);
             jsonWriter.name("message").value(e.getMessage());
             jsonWriter.endObject();
+
         }
         response.sendRedirect("/");
     }

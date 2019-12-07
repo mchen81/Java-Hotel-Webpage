@@ -1,15 +1,24 @@
 function login() {
-    var myusername = document.getElementById('username').value;
-    var mypassword = document.getElementById('password').value;
-    console.log(username + password);
+
+    const data = {username: document.getElementById("username").value, password: document.getElementById('password').value};
+    console.log(data)
     fetch('/login', {
         method: 'post',
-        body: ('username=' + myusername + '&password=' + mypassword)
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
     }).then(res => res.json())
         .then(data => {
-        console.log(data);
-        document.getElementById("message").innerHTML = data.message;
-    }).catch(err => {
+
+            if(data.success == true){
+                window.location.replace("/");
+            }else {
+                console.log(data);
+                document.getElementById("message").innerHTML = data.message;
+            }
+
+        }).catch(err => {
         console.log('error happen: ');
         console.log(err);
     });

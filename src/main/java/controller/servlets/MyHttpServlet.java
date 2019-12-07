@@ -1,5 +1,6 @@
 package controller.servlets;
 
+import com.google.gson.stream.JsonReader;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -7,8 +8,12 @@ import org.apache.velocity.app.VelocityEngine;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class MyHttpServlet extends HttpServlet {
 
@@ -55,4 +60,22 @@ public abstract class MyHttpServlet extends HttpServlet {
     protected void outPutHtml(HttpServletResponse response) throws IOException {
         response.getWriter().println(getOutput());
     }
+
+    protected Map<String, String> getAjaxRequestParameterMap(BufferedReader bufferedReader) throws IOException {
+        Map<String, String> parameterMap = new HashMap<>();
+        String line;
+        StringBuilder stringBuilder = new StringBuilder();
+        while ((line = bufferedReader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        JsonReader jsonReader = new JsonReader(new StringReader(stringBuilder.toString()));
+        jsonReader.beginObject();
+        while (jsonReader.hasNext()) {
+            parameterMap.put(jsonReader.nextName(), jsonReader.nextString());
+        }
+        jsonReader.endObject();
+
+        return parameterMap;
+    }
+
 }
