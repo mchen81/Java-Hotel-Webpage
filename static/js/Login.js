@@ -1,6 +1,16 @@
 function login() {
 
-    const data = {username: document.getElementById("username").value, password: document.getElementById('password').value};
+    let name = document.getElementById("username").value;
+    let pass = document.getElementById('password').value;
+
+
+    const regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[@#$%.\/]){5,20}/gm;
+    if (regex.exec(pass) == null) {
+        alert("Password does not follow the rule")
+        return;
+    }
+
+    const data = {username: name, password: pass};
     console.log(data)
     fetch('/login', {
         method: 'post',
