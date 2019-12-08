@@ -4,8 +4,6 @@ import com.google.gson.stream.JsonWriter;
 import controller.servlets.MyHttpServlet;
 import dao.bean.Hotel;
 import exceptions.HotelHasBeenSavedException;
-import exceptions.UserNameHasExistedException;
-import org.eclipse.jetty.server.session.Session;
 import service.ServicesSingleton;
 import service.interfaces.HotelServiceInterface;
 import service.interfaces.UserServiceInterface;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,7 +49,6 @@ public class SaveHotelServlet extends MyHttpServlet {
             jsonWriter.endArray();
         }
         jsonWriter.endObject();
-
     }
 
     @Override
@@ -71,7 +67,16 @@ public class SaveHotelServlet extends MyHttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        JsonWriter jsonWriter = new JsonWriter(response.getWriter());
+        setJsonResponse(response);
+        if (userId != null) {
+            userService.clearSavedHotel(userId);
+            jsonWriter.beginObject().name("success").value(true).endObject();
+        } else {
+            jsonWriter.beginObject().name("success").value(false).endObject();
+        }
     }
 }

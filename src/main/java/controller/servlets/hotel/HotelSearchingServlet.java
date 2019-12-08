@@ -42,6 +42,7 @@ public class HotelSearchingServlet extends MyHttpServlet {
 
     }
 
+    @Deprecated
     public void originGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
