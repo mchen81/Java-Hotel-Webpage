@@ -10,7 +10,7 @@ public class Review implements Comparable<Review> {
 
     private String reviewId;
 
-    private int ratingOverall;
+    private float ratingOverall;
 
     private String title;
 
@@ -36,7 +36,7 @@ public class Review implements Comparable<Review> {
         this.reviewId = reviewId;
     }
 
-    public int getRatingOverall() {
+    public float getRatingOverall() {
         return ratingOverall;
     }
 
@@ -76,7 +76,7 @@ public class Review implements Comparable<Review> {
         return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
     }
 
-    public void setRatingOverall(int ratingOverall) {
+    public void setRatingOverall(float ratingOverall) {
         this.ratingOverall = ratingOverall;
     }
 

@@ -83,7 +83,7 @@ public class ReviewDao extends FinalProjectDao implements ReviewDaoInterface {
             CallableStatement callableStatement = connection.prepareCall(CALL_ADD_REVIEW);
             callableStatement.setString(1, review.getReviewId());
             callableStatement.setString(2, review.getHotelId());
-            callableStatement.setInt(3, review.getRatingOverall());
+            callableStatement.setFloat(3, review.getRatingOverall());
             callableStatement.setString(4, review.getTitle());
             callableStatement.setBlob(5, stringToInputStream(review.getReviewText()));
             callableStatement.setLong(6, review.getUserId());
@@ -102,7 +102,7 @@ public class ReviewDao extends FinalProjectDao implements ReviewDaoInterface {
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_UPDATE_REVIEW);
             callableStatement.setString(1, review.getReviewId());
-            callableStatement.setInt(2, review.getRatingOverall());
+            callableStatement.setFloat(2, review.getRatingOverall());
             callableStatement.setString(3, review.getTitle());
             callableStatement.setBlob(4, stringToInputStream(review.getReviewText()));
             callableStatement.setTimestamp(5, review.getSubmissionTime());

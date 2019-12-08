@@ -8,11 +8,10 @@ import service.ServicesSingleton;
 import service.interfaces.ReviewServiceInterface;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 public class ReviewServlet extends MyHttpServlet {
@@ -56,9 +55,23 @@ public class ReviewServlet extends MyHttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String hotelId = request.getParameter("hotelId");
+        String title = request.getParameter("title");
+        String reviewText = request.getParameter("reviewText");
+        String rate = request.getParameter("rate");
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        if (userId == null || userId.isBlank()) {
+            userId = "1";
+        }
+        Review review = new Review();
+        review.setHotelId(hotelId);
+        review.setRatingOverall(Integer.parseInt(rate));
+        review.setReviewText(reviewText);
+        review.setTitle(title);
+        review.setUserId(Integer.parseInt(userId));
+        reviewService.addReview(review);
 
 
         // redirect to hotel

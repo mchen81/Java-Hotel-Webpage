@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="../js/Login.js"></script>
+</head>
+<body>
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="https://www.b-cube.in/wp-content/uploads/2014/05/aditya-300x177.jpg" id="icon" alt="User Icon"/>
+            <h1>Log in</h1>
+        </div>
+
+        <!-- Login Form -->
+
+            <input type="text" name="username" id="username" class="fadeIn second" placeholder="username">
+            <input type="password" name="password" id="password" class="fadeIn third" placeholder="password">
+            <input type="button" class="fadeIn fourth" value="Log In" onclick="login()">
+
+
+        <!-- Remind Passowrd -->
+
+        <div id="formFooter">
+            <a class="underlineHover" href="#">Go to the Site</a>
+        </div>
+    </div>
+
+    <p id="message"></p>
+</div>
+</body>
+</html>
