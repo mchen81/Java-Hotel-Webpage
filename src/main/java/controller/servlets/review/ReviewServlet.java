@@ -24,7 +24,7 @@ public class ReviewServlet extends MyHttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String hotelId = request.getParameter("hotelId");
         String userId = request.getParameter("userId");
         setJsonResponse(response);
@@ -53,7 +53,14 @@ public class ReviewServlet extends MyHttpServlet {
             jsonWriter.name("message").value("No reviews found");
         }
         jsonWriter.endObject();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
 
 
+
+        // redirect to hotel
     }
 }

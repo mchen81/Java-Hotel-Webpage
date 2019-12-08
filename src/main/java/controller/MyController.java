@@ -1,5 +1,6 @@
 package controller;
 
+import controller.servlets.hotel.HotelDetailServlet;
 import controller.servlets.hotel.HotelSearchingServlet;
 import controller.servlets.hotel.HotelServlet;
 import controller.servlets.user.LoginServlet;
@@ -44,6 +45,7 @@ public class MyController {
         // hotel
         contextHandler.addServlet(HotelServlet.class, "/hotel");
         contextHandler.addServlet(HotelSearchingServlet.class, "/search");
+        contextHandler.addServlet(HotelDetailServlet.class, "/hotelDetail");
         // review
         // attractions
         //

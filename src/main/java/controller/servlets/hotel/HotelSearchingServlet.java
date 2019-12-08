@@ -5,6 +5,7 @@ import controller.servlets.MyHttpServlet;
 import dao.bean.Hotel;
 import service.ServicesSingleton;
 import service.interfaces.HotelServiceInterface;
+import service.interfaces.ReviewServiceInterface;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +18,33 @@ public class HotelSearchingServlet extends MyHttpServlet {
 
     private HotelServiceInterface hotelService;
 
+    private ReviewServiceInterface reviewService;
+
     public HotelSearchingServlet() {
         hotelService = ServicesSingleton.getHotelService();
+        reviewService = ServicesSingleton.getReviewService();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        initVelocityEngine(request);
+        setBasicHtmlResponse(response);
+        setReturnHtml("ShowHotels");
+        String cityKeyword = request.getParameter("city");
+        String nameKeyword = request.getParameter("hotelName");
+        List<Hotel> foundHotels = hotelService.findHotelsByKeyWords(cityKeyword, nameKeyword);
+        for (Hotel hotel : foundHotels) {
+            hotel.setRating(reviewService.getHotelAvgRating(hotel.getId()));
+        }
+        addAttribute("hotels", foundHotels);
+        outPutHtml(response);
+
+    }
+
+    public void originGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         // return json
         String cityKeyword = request.getParameter("city");
         String nameKeyword = request.getParameter("hotelName");
@@ -54,4 +76,5 @@ public class HotelSearchingServlet extends MyHttpServlet {
         }
         out.flush();
     }
+
 }

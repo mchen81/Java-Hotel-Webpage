@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="../js/Register.js"></script>
+
+
+</head>
+<body>
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="../img/HotelIcon.png" id="icon" alt="User Icon"/>
+            <h1>Register</h1>
+        </div>
+
+        <!-- Login Form -->
+        <input type="text" id="username" class="fadeIn second"  placeholder="username">
+        <input type="email" id="email" class="fadeIn third"  placeholder="email">
+        <input type="password" id="password" class="fadeIn fourth"  placeholder="password">
+        <input type="button" class="fadeIn fifth" value="Register" onclick="register()">
+
+        <p id="message"> </p>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a class="underlineHover" href="/">Go to the Site</a>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

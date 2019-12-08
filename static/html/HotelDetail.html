@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/rating.css">
+
+    <script>
+        function saveThisHotel(hotelId) {
+
+            alert("You have saved the hotel")
+        }
+    </script>
+
+</head>
+<body>
+
+
+
+$hotel.name
+
+<input type="button" onclick="saveThisHotel('$hotel.id')" id="saveHotel">
+
+#foreach($review in $reviews)
+$review.title <br/>
+#end
+
+<form action="#" method="POST">
+
+    <input type="hidden" value="$hotel.id" name="hotelId">
+    <fieldset class="rating">
+        <textarea id="title" class="text" cols="60" rows="1" name="title"></textarea>
+        <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"></label>
+        <input type="radio" id="star4half" name="rating" value="4.5"/><label class="half" for="star4half"></label>
+        <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"></label>
+        <input type="radio" id="star3half" name="rating" value="3.5"/><label class="half" for="star3half"></label>
+        <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"></label>
+        <input type="radio" id="star2half" name="rating" value="2.5"/><label class="half" for="star2half"></label>
+        <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"></label>
+        <input type="radio" id="star1half" name="rating" value="1.5"/><label class="half" for="star1half"></label>
+        <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"></label>
+        <input type="radio" id="starhalf" name="rating" value="0.5"/><label class="half" for="starhalf"></label>
+        <br/>
+        <textarea id="reviewText" class="text" cols="82" rows="20" name="reviewText"></textarea>
+    </fieldset>
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

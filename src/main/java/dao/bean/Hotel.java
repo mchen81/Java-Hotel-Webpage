@@ -10,6 +10,7 @@ public class Hotel {
     private String address;
     private Double latitude;
     private Double longitude;
+    private Double rating;
 
     public String getId() {
         return id;
@@ -73,5 +74,13 @@ public class Hotel {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getRating() {
+        return String.format("%.1f", rating);
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

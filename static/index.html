@@ -8,24 +8,63 @@
     <meta charset="UTF-8">
     <title>Hotel</title>
 
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
 </head>
 <body>
 <section class="newsletter">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="content">
-                    <h2>SUBSCRIBE TO OUR NEWSLETTER</h2>
-                    <div class="input-group">
-                        <input type="email" class="form-control" placeholder="Enter your email">
-                        <span class="input-group-btn">
-         <button class="btn" type="submit">Subscribe Now</button>
-         </span>
+
+                <h2>Search Hotels</h2>
+                <div class="input-group">
+                    <div class="content">
+                        <form action="/search">
+                            <input type="text" name="city" class="form-control" placeholder="CITY">
+                            <input type="text" name="hotelName" class="form-control" placeholder="NAME">
                     </div>
+                    <span class="input-group-btn">
+                            <input type="submit" value="SUBMIT" class="btn">
+                    </span>
+                    </form>
+
+
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
+<div id="map"></div>
+<script>
+    function initMap() {
+        var locationRio = {lat: 37.75626, lng: -122.43246};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: locationRio,
+            gestureHandling: 'cooperative'
+        });
+
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEvPZcqj3aXoII9X8eZc6xbXxnm3AxtD0&callback=initMap">
+</script>
+
 </body>
 </html>

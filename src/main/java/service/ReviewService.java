@@ -102,7 +102,11 @@ public class ReviewService implements ReviewServiceInterface {
 
     @Override
     public double getHotelAvgRating(String hotelId) {
-        return hotelsAvgRatingMap.get(hotelId).getAvgRating();
+        if (hotelsAvgRatingMap.containsKey(hotelId)) {
+            return hotelsAvgRatingMap.get(hotelId).getAvgRating();
+        } else {
+            return 0;
+        }
     }
 
     private String generateNewReviewId() {

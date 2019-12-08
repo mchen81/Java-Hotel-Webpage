@@ -2,9 +2,12 @@ package service.interfaces;
 
 import controller.servlets.user.UserBo;
 import dao.bean.User;
+import exceptions.HotelHasBeenSavedException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserNameHasExistedException;
 import exceptions.WrongPasswordException;
+
+import java.util.Set;
 
 public interface UserServiceInterface {
 
@@ -13,4 +16,11 @@ public interface UserServiceInterface {
     void register(UserBo userBo) throws UserNameHasExistedException;
 
     void modifyProfile(User user);
+
+    Set<String> getSavedHotels(String userId);
+
+    void addSavedHotel(String userId, String HotelId) throws HotelHasBeenSavedException;
+
+    void clearSavedHotel(String userId);
+
 }

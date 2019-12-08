@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<script>
+    function showHotelInfo(hotelId){
+        window.open('/hotelDetail?hotelId=' + hotelId)
+    }
+</script>
+
+#foreach($hotel in $hotels)
+
+<a href="javascript:showHotelInfo('$hotel.id')">$hotel.name  $hotel.rating</a><br/>
+
+#end
+
+</body>
+</html>

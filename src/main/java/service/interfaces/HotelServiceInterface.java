@@ -9,4 +9,5 @@ public interface HotelServiceInterface {
     Hotel findHotelById(String id);
 
     List<Hotel> findHotelsByKeyWords(String city, String name);
+
 }

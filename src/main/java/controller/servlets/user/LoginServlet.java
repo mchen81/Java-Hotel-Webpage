@@ -29,7 +29,6 @@ public class LoginServlet extends MyHttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(request.getParameter("username"));
 
         initVelocityEngine(request);
         HttpSession session = request.getSession();

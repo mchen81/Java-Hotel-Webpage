@@ -2,9 +2,12 @@ package service;
 
 import common.RandomNumberUtil;
 import controller.servlets.user.UserBo;
+import dao.SavedHotelDao;
 import dao.UserDao;
 import dao.bean.User;
+import dao.interfaces.SaveHotelDaoInterface;
 import dao.interfaces.UserDaoInterface;
+import exceptions.HotelHasBeenSavedException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserNameHasExistedException;
 import exceptions.WrongPasswordException;
@@ -13,13 +16,22 @@ import service.interfaces.UserServiceInterface;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class UserService implements UserServiceInterface {
 
     private UserDaoInterface userDao;
 
+    private SaveHotelDaoInterface saveHotelDao;
+
+    private Map<String, Set<String>> userSavedHotels;
+
     public UserService() {
         this.userDao = new UserDao();
+        this.saveHotelDao = new SavedHotelDao();
+        userSavedHotels = saveHotelDao.getAllUserSavedHotel();
     }
 
     @Override
@@ -50,6 +62,31 @@ public class UserService implements UserServiceInterface {
     @Override
     public void modifyProfile(User user) {
         userDao.modifyUserProfile(user);
+    }
+
+    @Override
+    public Set<String> getSavedHotels(String userId) {
+        return userSavedHotels.get(userId);
+    }
+
+    @Override
+    public void addSavedHotel(String userId, String hotelId) throws HotelHasBeenSavedException {
+        saveHotelDao.addUserSaveHotel(userId, hotelId);
+        if (userSavedHotels.containsKey(userId)) {
+            userSavedHotels.get(userId).add(hotelId);
+        } else {
+            HashSet<String> set = new HashSet<>();
+            set.add(hotelId);
+            userSavedHotels.put(userId, set);
+        }
+
+    }
+
+    @Override
+    public void clearSavedHotel(String userId) {
+        saveHotelDao.clearUserSavedHotelById(userId);
+        userSavedHotels.replace(userId, new HashSet<>());
+
     }
 
 
