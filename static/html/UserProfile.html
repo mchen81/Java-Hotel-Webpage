@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function noUserAlert() {
+            alert("You must login to see your profile")
+            window.stop();
+            window.location.replace("/login");
+        }
+
+        function deleteOneSavedHotel(hotelId) {
+            var savedHotel = document.getElementById(hotelId);
+            savedHotel.style.display = "none";
+            // send delete request to servlet
+
+        }
+
+        function clearAllSavedHotel() {
+            var savedHotels = document.getElementById("allSavedHotel");
+            savedHotels.style.display = "none";
+            document.getElementById("savedHotelsMessage").innerText = "Your saved hotels have been cleared"
+        }
+
+        function editReview(reviewId) {
+            var editForm = document.getElementById("editForm" + reviewId);
+            if (editForm.style.display === "block") {
+                editForm.style.display = "none"
+            } else {
+                editForm.style.display = "block"
+            }
+        }
+
+        function saveReview(reviewId) {
+            var editForm = document.getElementById("editForm" + reviewId);
+            editForm.style.display = "none";
+            var title = document.getElementById('title' + reviewId).value;
+            var reviewText = document.getElementById('reviewText' + reviewId).value;
+            const data = {reviewId: reviewId, title: title, reviewText: reviewText}
+            fetch('/review', {
+                method: 'put',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then(res => res.json())
+                .then(data => {
+                    console.log('update successfully')
+                    document.getElementById('titleText' + reviewId).innerText = title;
+                }).catch(err => {
+                    console.log('update fail');
+            });
+        }
+
+        function removeReview(reviewId) {
+            var editForm = document.getElementById(reviewId);
+            editForm.style.display = "none";
+            const data = {reviewId: reviewId}
+            fetch('/review', {
+                method: 'delete',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then(res => res.json())
+                .then(data => {
+                    console.log('delete successfully')
+                }).catch(err => {
+                console.log('delete fail');
+            });
+        }
+
+    </script>
+    <link rel="stylesheet" href="../css/rating.css">
+
+</head>
+<>
+
+$script
+<h1>Hello, $username</h1>
+
+// change password
+<input type="button" value="change password"> <br/>
+
+// change email
+<input type="button" value="change email"> <br/>
+
+// show saved hotel and clear
+// button - clear all
+
+<p id="savedHotelsMessage">Your saved Hotels</p>
+<div id="allSavedHotel">
+    <input type="button" value="Clear" id="clearSavedHotelButton" onclick="clearAllSavedHotel()"> <br/>
+    #foreach($hotel in $hotels)
+    <div id="$hotel.id">
+        <a href="/hotelDetail?hotelId=$hotel.id">$hotel.name</a>
+        <input type="button" value="Delete This" onclick="deleteOneSavedHotel('$hotel.id')"> <br/>
+        <br/>
+    </div>
+    #end
+</div>
+
+<br/>-------------Separate Line-----------------<br/>
+
+<p>Your Reviews</p>
+
+#foreach($review in $reviews)
+<div id="$review.reviewId">
+    <div id="titleText$review.reviewId">$review.title</div>
+    <input type="button" value="Edit" onclick="editReview('$review.reviewId')">
+    <input type="button" value="Remove" onclick="removeReview('$review.reviewId')">
+    <br/>
+
+
+    <div id="editForm$review.reviewId" style="display: none;">
+        <fieldset class="rating">
+            <textarea class="text" cols="60" rows="1" id="title$review.reviewId">$review.title</textarea>
+            <br/>
+            <textarea id="reviewText$review.reviewId" class="text" cols="82" rows="20"
+                      name="reviewText">$review.reviewText</textarea>
+        </fieldset>
+        <input type="button" value="Save" onclick="saveReview('$review.reviewId')">
+    </div>
+
+</div>
+#end
+
+
+</body>
+</html>

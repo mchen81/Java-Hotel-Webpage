@@ -3,21 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/navigation.css">
+    <link rel="stylesheet" href="../css/detail.css">
 
 </head>
 <body>
 
-<script>
-    function showHotelInfo(hotelId){
-        window.open('/hotelDetail?hotelId=' + hotelId)
-    }
-</script>
+<ul class="nav">
+    <li><a href="/">Home</a></li>
+    <li ><a href="/login">Login</a></li>
+    <li ><a href="/register">Register</a></li>
+</ul>
 
-#foreach($hotel in $hotels)
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            #foreach($hotel in $hotels)
+            <ul class="detail">
+                <li>
+                    <a target="_blank" href="/hotelDetail?hotelId=$hotel.id">$hotel.name</a>
+                    <p>Avg Rate: #if($hotel.rating == -1.0) No Rated Yet #else $hotel.rating #end</p>
+                    <p>$hotel.address, $hotel.city</p>
+                </li>
+            </ul>
+            #end
+        </div>
+    </div>
+</div>
 
-<a href="javascript:showHotelInfo('$hotel.id')">$hotel.name  $hotel.rating</a><br/>
 
-#end
+
+
+
 
 </body>
 </html>

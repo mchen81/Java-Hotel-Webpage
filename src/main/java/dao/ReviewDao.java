@@ -90,6 +90,7 @@ public class ReviewDao extends FinalProjectDao implements ReviewDaoInterface {
             callableStatement.setTimestamp(7, review.getSubmissionTime());
             callableStatement.execute();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new QueryException(e.getErrorCode());
         } finally {
             closeConnection(connection);
@@ -108,6 +109,7 @@ public class ReviewDao extends FinalProjectDao implements ReviewDaoInterface {
             callableStatement.setTimestamp(5, review.getSubmissionTime());
             callableStatement.execute();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new QueryException(e.getErrorCode());
         } finally {
             closeConnection(connection);

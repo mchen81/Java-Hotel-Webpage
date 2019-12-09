@@ -1,50 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../css/rating.css">
+    <title>$hotel.name</title>
+
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            width: 300px;
+            height: 400px;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0%;
+            padding: 0%;
+        }
+    </style>
 
     <script>
         function saveThisHotel(hotelId) {
+            const data = {hotelId: hotelId};
+            fetch('/saveHotel', {
+                method: 'post',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then(res => res.json())
+                .then(data => {
+                    if (data.success == true) {
+                        alert("Success Save");
+                    } else {
+                        alert(data.message);
+                    }
+                }).catch(err => {
+                console.log('error happen: ');
+                console.log(err);
+            });
+        }
 
-            alert("You have saved the hotel")
+
+        function searchAttractions(hotelId) {
+            var miles = document.getElementById("radius").value;
+            fetch('/attractions?hotelId=' + hotelId + '&radius=' + miles, {
+                method: 'get'
+            }).then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                }).catch(err => {
+                console.log('error happen: ');
+                console.log(err);
+            });
+
         }
     </script>
+
+    <link rel="stylesheet" href="../css/navigation.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/detail.css">
+    <link rel="stylesheet" href="../css/rating.css">
 
 </head>
 <body>
 
+<ul class="nav">
+    <li><a class="active" href="/">Home</a></li>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/register">Register</a></li>
+</ul>
 
 
-$hotel.name
+<h1>$hotel.name</h1> <input type="button" onclick="saveThisHotel('$hotel.id')" id="saveHotel" value="Save This Hotel">
 
-<input type="button" onclick="saveThisHotel('$hotel.id')" id="saveHotel">
+<div id="map"></div>
+<script>
+    function initMap() {
+        var locationRio = {lat: $hotel.latitude, lng: $hotel.longitude};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: locationRio,
+            gestureHandling: 'cooperative'
+        });
+        var marker = new google.maps.Marker({
+            position: locationRio,
+            map: map,
+            title: 'Hello World!'
+        });
+    }
+</script>
 
-#foreach($review in $reviews)
-$review.title <br/>
-#end
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEvPZcqj3aXoII9X8eZc6xbXxnm3AxtD0&callback=initMap">
+</script>
 
-<form action="#" method="POST">
+<div>
+    <input type="text" placeholder="miles" id="radius">
+    <input type="button" value="Search" onclick="searchAttractions('$hotel.id')">
+</div>
 
-    <input type="hidden" value="$hotel.id" name="hotelId">
-    <fieldset class="rating">
-        <textarea id="title" class="text" cols="60" rows="1" name="title"></textarea>
-        <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"></label>
-        <input type="radio" id="star4half" name="rating" value="4.5"/><label class="half" for="star4half"></label>
-        <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"></label>
-        <input type="radio" id="star3half" name="rating" value="3.5"/><label class="half" for="star3half"></label>
-        <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"></label>
-        <input type="radio" id="star2half" name="rating" value="2.5"/><label class="half" for="star2half"></label>
-        <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"></label>
-        <input type="radio" id="star1half" name="rating" value="1.5"/><label class="half" for="star1half"></label>
-        <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"></label>
-        <input type="radio" id="starhalf" name="rating" value="0.5"/><label class="half" for="starhalf"></label>
-        <br/>
-        <textarea id="reviewText" class="text" cols="82" rows="20" name="reviewText"></textarea>
-    </fieldset>
-    <input type="submit" value="Submit">
-</form>
+
+<div class="container mt-6 mb-6">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            #foreach($review in $reviews)
+            <ul class="timeline">
+                <li>
+                    <p>$review.title</a>
+                    <p>Rating: $review.ratingOverall</p>
+                    <p>$review.text</p>
+                    <p>$review.submissionTime</p>
+                </li>
+            </ul>
+            #end
+        </div>
+    </div>
+</div>
+
+<div class="container mt-6 mb-6">
+    <form action="/review" method="POST">
+        <input type="hidden" value="$hotel.id" name="hotelId">
+        <fieldset class="rating">
+            <textarea id="title" class="text" cols="60" rows="1" name="title"></textarea>
+            <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"></label>
+            <input type="radio" id="star4half" name="rating" value="4.5"/><label class="half" for="star4half"></label>
+            <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"></label>
+            <input type="radio" id="star3half" name="rating" value="3.5"/><label class="half" for="star3half"></label>
+            <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"></label>
+            <input type="radio" id="star2half" name="rating" value="2.5"/><label class="half" for="star2half"></label>
+            <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"></label>
+            <input type="radio" id="star1half" name="rating" value="1.5"/><label class="half" for="star1half"></label>
+            <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"></label>
+            <input type="radio" id="starhalf" name="rating" value="0.5"/><label class="half" for="starhalf"></label>
+            <br/>
+            <textarea id="reviewText" class="text" cols="82" rows="20" name="reviewText"></textarea>
+        </fieldset>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
 
 </body>
 </html>

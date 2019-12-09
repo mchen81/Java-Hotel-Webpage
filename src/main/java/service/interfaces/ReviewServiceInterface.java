@@ -1,6 +1,7 @@
 package service.interfaces;
 
 import dao.bean.Review;
+import service.ReviewService;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface ReviewServiceInterface {
 
     void removeReview(String reviewId);
 
-    double getHotelAvgRating(String hotelId);
+    ReviewService.Rating getHotelRatingInfo(String hotelId);
 }

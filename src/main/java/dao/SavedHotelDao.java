@@ -16,13 +16,13 @@ import java.util.Set;
 
 public class SavedHotelDao extends FinalProjectDao implements SaveHotelDaoInterface {
 
-    private static final String CALL_ADD_USER_SAVED_HOTEL = "CALL {addUserSaveHotel(?,?)}";
+    private static final String CALL_ADD_USER_SAVED_HOTEL = "{CALL addUserSaveHotel(?,?)}";
 
-    private static final String CALL_GET_USER_SAVED_HOTEL_BY_ID = "CALL {getUserSavedHotelById(?)}";
+    private static final String CALL_GET_USER_SAVED_HOTEL_BY_ID = "{CALL getUserSavedHotelById(?)}";
 
-    private static final String CALL_GET_ALL_USER_SAVED_HOTEL = "CALL {getAllUserSavedHotel()}";
+    private static final String CALL_GET_ALL_USER_SAVED_HOTEL = "{CALL getAllUserSavedHotel()}";
 
-    private static final String CALL_CLEAR_USER_SAVED_HOTEL_BY_ID = "CALL {clearUserSavedHotelById(?)}";
+    private static final String CALL_CLEAR_USER_SAVED_HOTEL_BY_ID = "{CALL clearUserSavedHotelById(?)}";
 
 
     @Override

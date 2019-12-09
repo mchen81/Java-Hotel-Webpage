@@ -3,6 +3,7 @@ package controller.servlets.hotel;
 import com.google.gson.stream.JsonWriter;
 import controller.servlets.MyHttpServlet;
 import dao.bean.Hotel;
+import service.ReviewService;
 import service.ServicesSingleton;
 import service.interfaces.HotelServiceInterface;
 import service.interfaces.ReviewServiceInterface;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HotelSearchingServlet extends MyHttpServlet {
@@ -34,9 +37,30 @@ public class HotelSearchingServlet extends MyHttpServlet {
         String cityKeyword = request.getParameter("city");
         String nameKeyword = request.getParameter("hotelName");
         List<Hotel> foundHotels = hotelService.findHotelsByKeyWords(cityKeyword, nameKeyword);
+
         for (Hotel hotel : foundHotels) {
-            hotel.setRating(reviewService.getHotelAvgRating(hotel.getId()));
+            ReviewService.Rating rating = reviewService.getHotelRatingInfo(hotel.getId());
+            if (rating == null) {
+                hotel.setRating(-1D);
+            } else {
+                hotel.setRating(rating.getAvgRating());
+            }
         }
+
+        Collections.sort(foundHotels, new Comparator<Hotel>() {
+            @Override
+            public int compare(Hotel o1, Hotel o2) {
+                if (o1.getRating() != null && o2.getRating() == null) {
+                    return -1;
+                } else if (o1.getRating() == null && o2.getRating() != null) {
+                    return 1;
+                } else if (o1.getRating() == null && o2.getRating() == null) {
+                    return 0;
+                }
+                return o1.getRating().compareTo(o2.getRating()) * -1;
+            }
+        });
+
         addAttribute("hotels", foundHotels);
         outPutHtml(response);
 

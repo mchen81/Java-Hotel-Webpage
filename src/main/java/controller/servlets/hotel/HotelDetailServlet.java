@@ -23,6 +23,7 @@ public class HotelDetailServlet extends MyHttpServlet {
 
         String hotelId = request.getParameter("hotelId");
         if (hotelId == null || hotelId.isBlank()) {
+            return;
             // TODO return hotel found
         }
 

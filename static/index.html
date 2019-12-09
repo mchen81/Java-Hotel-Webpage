@@ -5,9 +5,9 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navigation.css">
     <meta charset="UTF-8">
     <title>Hotel</title>
-
     <style>
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
@@ -22,27 +22,26 @@
             padding: 0;
         }
     </style>
-
 </head>
 <body>
+
+<ul class="nav">
+    <li class="left"><a class="active" href="/">Home</a></li>
+    <li class="right" ><a href="/login">Login</a></li>
+    <li class="right" ><a href="/register">Register</a></li>
+</ul>
+
 <section class="newsletter">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-
-                <h2>Search Hotels</h2>
-                <div class="input-group">
-                    <div class="content">
-                        <form action="/search">
-                            <input type="text" name="city" class="form-control" placeholder="CITY">
-                            <input type="text" name="hotelName" class="form-control" placeholder="NAME">
-                    </div>
-                    <span class="input-group-btn">
-                            <input type="submit" value="SUBMIT" class="btn">
-                    </span>
+                <div class="content">
+                    <form action="/search" method="get">
+                        <input type="text" name="city" class="form-control" placeholder="CITY">
+                        <input type="text" name="hotelName" class="form-control" placeholder="NAME">
+                        <button class="btn" type="submit">Search</button>
                     </form>
-
-
+                    </div>
                 </div>
             </div>
         </div>

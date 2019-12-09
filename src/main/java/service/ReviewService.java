@@ -7,6 +7,8 @@ import dao.interfaces.ReviewDaoInterface;
 import service.interfaces.ReviewServiceInterface;
 
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ReviewService implements ReviewServiceInterface {
@@ -55,7 +57,11 @@ public class ReviewService implements ReviewServiceInterface {
 
     @Override
     public List<Review> findReviewsByHotelId(String hotelId) {
-        return new ArrayList<>(reviewsMapCache.get(hotelId));
+        if (reviewsMapCache.containsKey(hotelId)) {
+            return new ArrayList<>(reviewsMapCache.get(hotelId));
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     @Override
@@ -73,6 +79,7 @@ public class ReviewService implements ReviewServiceInterface {
     public String addReview(Review review) {
         String reviewId = generateNewReviewId();
         review.setReviewId(reviewId);
+        review.setSubmissionTime(Timestamp.valueOf(LocalDateTime.now()));
         reviewDao.addReview(review);
         reviewsCache.put(reviewId, review);
         reviewsMapCache.get(review.getHotelId()).add(review);
@@ -82,13 +89,19 @@ public class ReviewService implements ReviewServiceInterface {
 
     @Override
     public void editReview(Review review) {
-
-        double originRating = reviewsCache.get(review.getReviewId()).getRatingOverall();
-        reviewDao.modifyReview(review);
-        reviewsCache.replace(review.getReviewId(), review);
-        reviewsMapCache.get(review.getHotelId()).removeIf(r -> r.equals(review));
-        reviewsMapCache.get(review.getHotelId()).add(review);
-        hotelsAvgRatingMap.get(review.getHotelId()).modify(originRating, review.getRatingOverall());
+        Review oldReview = reviewsCache.get(review.getReviewId());
+        if (oldReview == null) {
+            return;
+        }
+        double originRating = oldReview.getRatingOverall();
+        oldReview.setTitle(review.getTitle());
+        oldReview.setReviewText(review.getReviewText());
+        oldReview.setSubmissionTime(Timestamp.valueOf(LocalDateTime.now()));
+        reviewDao.modifyReview(oldReview);
+        reviewsCache.replace(oldReview.getReviewId(), oldReview);
+        reviewsMapCache.get(oldReview.getHotelId()).removeIf(r -> r.equals(review));
+        reviewsMapCache.get(oldReview.getHotelId()).add(oldReview);
+        hotelsAvgRatingMap.get(oldReview.getHotelId()).modify(originRating, oldReview.getRatingOverall());
     }
 
     @Override
@@ -101,12 +114,8 @@ public class ReviewService implements ReviewServiceInterface {
     }
 
     @Override
-    public double getHotelAvgRating(String hotelId) {
-        if (hotelsAvgRatingMap.containsKey(hotelId)) {
-            return hotelsAvgRatingMap.get(hotelId).getAvgRating();
-        } else {
-            return 0;
-        }
+    public Rating getHotelRatingInfo(String hotelId) {
+        return hotelsAvgRatingMap.get(hotelId);
     }
 
     private String generateNewReviewId() {
@@ -117,7 +126,7 @@ public class ReviewService implements ReviewServiceInterface {
         return reviewId.toString();
     }
 
-    private static class Rating {
+    public static class Rating {
         private double number;
         private double sum;
 
@@ -126,7 +135,7 @@ public class ReviewService implements ReviewServiceInterface {
             sum = firstRating;
         }
 
-        private double getAvgRating() {
+        public double getAvgRating() {
             return sum / number;
         }
 
@@ -144,5 +153,8 @@ public class ReviewService implements ReviewServiceInterface {
             sum = sum - origin + newRating;
         }
 
+        public double getNumber() {
+            return number;
+        }
     }
 }

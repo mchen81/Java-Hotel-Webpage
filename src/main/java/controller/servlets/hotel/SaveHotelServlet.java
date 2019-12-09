@@ -54,15 +54,23 @@ public class SaveHotelServlet extends MyHttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> parameterMap = getAjaxRequestParameterMap(request.getReader());
-        String userId = (String) request.getSession().getAttribute("userId");
+        Long userId = (Long) request.getSession().getAttribute("userId");
+
+        setJsonResponse(response);
         String hotelId = parameterMap.get("hotelId");
+
         JsonWriter jsonWriter = new JsonWriter(response.getWriter());
         jsonWriter.beginObject().name("success");
-        try {
-            userService.addSavedHotel(userId, hotelId);
-            jsonWriter.value(true).endObject();
-        } catch (HotelHasBeenSavedException e) {
-            jsonWriter.value(false).endObject();
+
+        if (userId == null || userId == 1L) {
+            jsonWriter.value(false).name("message").value("Please Log in to save hotel").endObject();
+        }else {
+            try {
+                userService.addSavedHotel(userId.toString(), hotelId);
+                jsonWriter.value(true).name("message").value("Save Success").endObject();
+            } catch (HotelHasBeenSavedException e) {
+                jsonWriter.value(false).name("message").value("You have saved this hotel").endObject();
+            }
         }
     }
 

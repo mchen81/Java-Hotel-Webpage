@@ -1,8 +1,7 @@
 package controller;
 
-import controller.servlets.hotel.HotelDetailServlet;
-import controller.servlets.hotel.HotelSearchingServlet;
-import controller.servlets.hotel.HotelServlet;
+import controller.servlets.hotel.*;
+import controller.servlets.review.ReviewServlet;
 import controller.servlets.user.LoginServlet;
 import controller.servlets.user.LogoutServlet;
 import controller.servlets.user.RegisterServlet;
@@ -12,6 +11,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import service.bean.TouristAttraction;
 
 import java.nio.file.Paths;
 
@@ -46,7 +46,10 @@ public class MyController {
         contextHandler.addServlet(HotelServlet.class, "/hotel");
         contextHandler.addServlet(HotelSearchingServlet.class, "/search");
         contextHandler.addServlet(HotelDetailServlet.class, "/hotelDetail");
+        contextHandler.addServlet(SaveHotelServlet.class, "/saveHotel");
+        contextHandler.addServlet(TouristAttractionServlet.class, "/attractions");
         // review
+        contextHandler.addServlet(ReviewServlet.class, "/review");
         // attractions
         //
         server.setHandler(contextHandler);

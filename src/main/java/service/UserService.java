@@ -66,7 +66,11 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public Set<String> getSavedHotels(String userId) {
-        return userSavedHotels.get(userId);
+        if (userSavedHotels.containsKey(userId)) {
+            return userSavedHotels.get(userId);
+        } else {
+            return new HashSet<>();
+        }
     }
 
     @Override
