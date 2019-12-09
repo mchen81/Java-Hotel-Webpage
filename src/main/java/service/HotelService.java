@@ -62,6 +62,11 @@ public class HotelService implements HotelServiceInterface {
 
     }
 
+    @Override
+    public List<Hotel> findAllHotels() {
+        return new ArrayList<>(hotelsCache.values());
+    }
+
     /**
      * Takes a host and a string containing path/resource/query and creates a
      * string of the HTTP GET request

@@ -4,7 +4,7 @@ function login() {
     let pass = document.getElementById('password').value;
 
 
-    const regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[@#$%.\/]){5,20}/gm;
+    const regex = /(?=.*\d)(?=.*[a-z])(?=.*[@#$%.\/]){5,10}/gm;
     if (regex.exec(pass) == null) {
         alert("Password does not follow the rule")
         return;

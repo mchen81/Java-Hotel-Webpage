@@ -73,11 +73,31 @@
 <script>
     function initMap() {
         var locationRio = {lat: 37.75626, lng: -122.43246};
+
+        var hotels = [
+            #foreach($hotel in $hotels)
+                ["$hotel.name", $hotel.latitude, $hotel.longitude],
+            #end
+            [1,1,1]
+        ];
+
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 13,
+            zoom: 10,
             center: locationRio,
             gestureHandling: 'cooperative'
         });
+
+        for (var i = 0; i < hotels.length-1; i++) {
+            var hotel = hotels[i];
+            var marker = new google.maps.Marker({
+                position: {lat: hotel[1], lng: hotel[2]},
+                map: map,
+                title: hotel[0],
+                zIndex: i+1
+            });
+        }
+
+
 
     }
 </script>

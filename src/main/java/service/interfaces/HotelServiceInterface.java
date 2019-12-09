@@ -12,4 +12,6 @@ public interface HotelServiceInterface {
     List<Hotel> findHotelsByKeyWords(String city, String name);
 
     List<TouristAttraction> findTouristAttraction(String hotelId, double miles);
+
+    List<Hotel> findAllHotels();
 }
