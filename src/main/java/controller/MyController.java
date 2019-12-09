@@ -11,7 +11,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import service.bean.TouristAttraction;
 
 import java.nio.file.Paths;
 
@@ -36,6 +35,7 @@ public class MyController {
         // from servlets
         contextHandler.setContextPath("/");
         contextHandler.setAttribute("templateEngine", velocity);
+        contextHandler.addServlet(HomeServlet.class, "/home");
         // servlets:
         // users
         contextHandler.addServlet(LoginServlet.class, "/login");
@@ -43,7 +43,7 @@ public class MyController {
         contextHandler.addServlet(RegisterServlet.class, "/register");
         contextHandler.addServlet(UserProfileServlet.class, "/profile");
         // hotel
-        contextHandler.addServlet(HotelServlet.class, "/hotel");
+        contextHandler.addServlet(HomeServlet.class, "/hotel");
         contextHandler.addServlet(HotelSearchingServlet.class, "/search");
         contextHandler.addServlet(HotelDetailServlet.class, "/hotelDetail");
         contextHandler.addServlet(SaveHotelServlet.class, "/saveHotel");

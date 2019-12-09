@@ -108,8 +108,8 @@ public class ReviewService implements ReviewServiceInterface {
     public void removeReview(String reviewId) {
         reviewDao.deleteReview(reviewId);
         Review removedReview = reviewsCache.get(reviewId);
-        reviewsCache.remove(removedReview);
-        reviewsMapCache.get(removedReview.getHotelId()).removeIf(r -> r.equals(removedReview));
+        reviewsCache.remove(reviewId);
+        reviewsMapCache.get(removedReview.getHotelId()).removeIf(r -> r.getReviewId().equals(reviewId));
         hotelsAvgRatingMap.get(removedReview.getHotelId()).delete(removedReview.getRatingOverall());
     }
 

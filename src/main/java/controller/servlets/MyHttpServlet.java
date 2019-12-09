@@ -48,6 +48,10 @@ public abstract class MyHttpServlet extends HttpServlet {
         template = engine.getTemplate(prefix + htmlFileName + suffix);
     }
 
+    protected void setReturnHtmlPath(String htmlPath) {
+        template = engine.getTemplate(htmlPath);
+    }
+
     protected void addAttribute(String attribute, Object object) {
         context.put(attribute, object);
     }
@@ -74,8 +78,15 @@ public abstract class MyHttpServlet extends HttpServlet {
             parameterMap.put(jsonReader.nextName(), jsonReader.nextString());
         }
         jsonReader.endObject();
-
         return parameterMap;
     }
 
+    protected boolean isLoggedIn(HttpServletRequest request) {
+        Long userId = (Long) request.getSession().getAttribute("userId");
+        if (userId == null || userId <= 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

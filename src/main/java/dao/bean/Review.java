@@ -99,6 +99,6 @@ public class Review implements Comparable<Review> {
 
     @Override
     public int compareTo(Review o) {
-        return submissionTime.compareTo(o.getSubmissionTime());
+        return submissionTime.compareTo(o.getSubmissionTime()) * -1;
     }
 }

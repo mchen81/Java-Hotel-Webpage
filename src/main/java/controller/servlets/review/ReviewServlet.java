@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -62,14 +60,12 @@ public class ReviewServlet extends MyHttpServlet {
         String hotelId = request.getParameter("hotelId");
         String title = request.getParameter("title");
         String reviewText = request.getParameter("reviewText");
-        String rate = request.getParameter("rating");
-
+        String rate = request.getParameter("rate");
         if (hotelId == null || title == null || reviewText == null || rate == null || title.isBlank() || reviewText.isBlank()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         setJsonResponse(response);
-        JsonWriter jsonWriter = new JsonWriter(response.getWriter());
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null || userId.toString().isBlank()) {
@@ -82,9 +78,12 @@ public class ReviewServlet extends MyHttpServlet {
         review.setTitle(title);
         review.setUserId(userId);
         reviewService.addReview(review);
-
-        jsonWriter.beginObject().name("success").value(true).endObject();
-
+        initVelocityEngine(request);
+        setBasicHtmlResponse(response);
+        setReturnHtml("HotelDetail");
+        String script = "<script>alert('Successfully Added Review'); window.location.replace('/hotelDetail?hotelId=" + hotelId + "'); </script>";
+        addAttribute("script", script);
+        outPutHtml(response);
     }
 
     @Override // update a review
@@ -113,6 +112,7 @@ public class ReviewServlet extends MyHttpServlet {
         String reviewId = parameterMap.get("reviewId");
         setJsonResponse(response);
         JsonWriter jsonWriter = new JsonWriter(response.getWriter());
+        jsonWriter.beginObject();
         if (reviewId == null) {
             jsonWriter.name("success").value(false).endObject();
         } else {

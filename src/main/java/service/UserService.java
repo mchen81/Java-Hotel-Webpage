@@ -50,7 +50,6 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void register(UserBo userBo) throws UserNameHasExistedException {
-
         User user = new User();
         user.setName(userBo.getUsername());
         user.setSalt(generateRandomSalt());
@@ -83,19 +82,21 @@ public class UserService implements UserServiceInterface {
             set.add(hotelId);
             userSavedHotels.put(userId, set);
         }
+    }
 
+    @Override
+    public void removeOneSavedHotel(String userId, String hotelId) {
+        saveHotelDao.removeOneSavedHotel(userId, hotelId);
+        userSavedHotels.get(userId).remove(hotelId);
     }
 
     @Override
     public void clearSavedHotel(String userId) {
         saveHotelDao.clearUserSavedHotelById(userId);
         userSavedHotels.replace(userId, new HashSet<>());
-
     }
 
-
     private String hashPassword(String password, String salt) {
-
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             byte[] messageDigest = md.digest((password + salt).getBytes());
@@ -108,16 +109,13 @@ public class UserService implements UserServiceInterface {
             }
             // return the HashText
             return hashtext;
-
         } catch (NoSuchAlgorithmException e) {
             System.out.println("No such algorithm");
             return null;
         }
-
     }
 
     private String generateRandomSalt() {
         return RandomNumberUtil.generateRandomString(16);
     }
-
 }

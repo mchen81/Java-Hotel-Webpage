@@ -24,6 +24,7 @@ public class SavedHotelDao extends FinalProjectDao implements SaveHotelDaoInterf
 
     private static final String CALL_CLEAR_USER_SAVED_HOTEL_BY_ID = "{CALL clearUserSavedHotelById(?)}";
 
+    private static final String CALL_REMOVE_USER_SAVED_HOTEL = "{Call removeUserSavedHotel(?,?)}";
 
     @Override
     public void addUserSaveHotel(String userId, String hotelId) throws HotelHasBeenSavedException {
@@ -89,6 +90,20 @@ public class SavedHotelDao extends FinalProjectDao implements SaveHotelDaoInterf
         try {
             CallableStatement callableStatement = connection.prepareCall(CALL_CLEAR_USER_SAVED_HOTEL_BY_ID);
             callableStatement.setString(1, userId);
+            callableStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new QueryException(e.getErrorCode());
+        }
+    }
+
+    @Override
+    public void removeOneSavedHotel(String userId, String hotelId) {
+
+        Connection connection = getConnection();
+        try {
+            CallableStatement callableStatement = connection.prepareCall(CALL_REMOVE_USER_SAVED_HOTEL);
+            callableStatement.setString(1, userId);
+            callableStatement.setString(2, hotelId);
             callableStatement.executeUpdate();
         } catch (SQLException e) {
             throw new QueryException(e.getErrorCode());

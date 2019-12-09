@@ -55,16 +55,13 @@ public class SaveHotelServlet extends MyHttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> parameterMap = getAjaxRequestParameterMap(request.getReader());
         Long userId = (Long) request.getSession().getAttribute("userId");
-
         setJsonResponse(response);
         String hotelId = parameterMap.get("hotelId");
-
         JsonWriter jsonWriter = new JsonWriter(response.getWriter());
         jsonWriter.beginObject().name("success");
-
         if (userId == null || userId == 1L) {
             jsonWriter.value(false).name("message").value("Please Log in to save hotel").endObject();
-        }else {
+        } else {
             try {
                 userService.addSavedHotel(userId.toString(), hotelId);
                 jsonWriter.value(true).name("message").value("Save Success").endObject();
@@ -77,11 +74,17 @@ public class SaveHotelServlet extends MyHttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");
+        Map<String, String> parameterMap = getAjaxRequestParameterMap(request.getReader());
+        String hotelId = parameterMap.get("hotelId");
+        System.out.println(userId);
         JsonWriter jsonWriter = new JsonWriter(response.getWriter());
         setJsonResponse(response);
-        if (userId != null) {
-            userService.clearSavedHotel(userId);
+        if (userId != null && hotelId == null) {
+            userService.clearSavedHotel(userId.toString());
+            jsonWriter.beginObject().name("success").value(true).endObject();
+        } else if (userId != null && hotelId != null) {
+            userService.removeOneSavedHotel(userId.toString(), hotelId);
             jsonWriter.beginObject().name("success").value(true).endObject();
         } else {
             jsonWriter.beginObject().name("success").value(false).endObject();

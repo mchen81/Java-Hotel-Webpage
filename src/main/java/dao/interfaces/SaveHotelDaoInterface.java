@@ -16,5 +16,5 @@ public interface SaveHotelDaoInterface {
 
     void clearUserSavedHotelById(String userId);
 
-
+    void removeOneSavedHotel(String userId, String hotelId);
 }

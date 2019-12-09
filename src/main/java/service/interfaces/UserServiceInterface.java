@@ -21,6 +21,8 @@ public interface UserServiceInterface {
 
     void addSavedHotel(String userId, String HotelId) throws HotelHasBeenSavedException;
 
+    void removeOneSavedHotel(String userId, String hotelId);
+
     void clearSavedHotel(String userId);
 
 }

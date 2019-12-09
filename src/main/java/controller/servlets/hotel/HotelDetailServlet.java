@@ -20,24 +20,19 @@ public class HotelDetailServlet extends MyHttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        initVelocityEngine(request);
+        setBasicHtmlResponse(response);
+        setReturnHtml("HotelDetail");
+        addAttribute("isLoggedIn", isLoggedIn(request));
         String hotelId = request.getParameter("hotelId");
         if (hotelId == null || hotelId.isBlank()) {
-            return;
-            // TODO return hotel found
+            addAttribute("script", "<script>alert('No Hotel Detail Found')</script>");
         }
 
         Hotel hotel = hotelService.findHotelById(hotelId);
         List<Review> reviews = reviewService.findReviewsByHotelId(hotel.getId());
-
-
-        initVelocityEngine(request);
-        setBasicHtmlResponse(response);
-        setReturnHtml("HotelDetail");
         addAttribute("hotel", hotel);
         addAttribute("reviews", reviews);
         outPutHtml(response);
-
-
     }
 }

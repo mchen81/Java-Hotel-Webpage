@@ -1,69 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/navigation.css">
-    <meta charset="UTF-8">
-    <title>Hotel</title>
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            height: 100%;
-        }
-
-        /* Optional: Makes the sample page fill the window. */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+    <title>HTML Meta Tag</title>
+    <meta http-equiv = "refresh" content = "0; url = /home" />
 </head>
 <body>
-
-<ul class="nav">
-    <li class="left"><a class="active" href="/">Home</a></li>
-    <li class="right" ><a href="/login">Login</a></li>
-    <li class="right" ><a href="/register">Register</a></li>
-</ul>
-
-<section class="newsletter">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="content">
-                    <form action="/search" method="get">
-                        <input type="text" name="city" class="form-control" placeholder="CITY">
-                        <input type="text" name="hotelName" class="form-control" placeholder="NAME">
-                        <button class="btn" type="submit">Search</button>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<div id="map"></div>
-<script>
-    function initMap() {
-        var locationRio = {lat: 37.75626, lng: -122.43246};
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 13,
-            center: locationRio,
-            gestureHandling: 'cooperative'
-        });
-
-    }
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEvPZcqj3aXoII9X8eZc6xbXxnm3AxtD0&callback=initMap">
-</script>
-
+<h1>Redirecting...</h1>
 </body>
 </html>

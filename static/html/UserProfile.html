@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script>
         function noUserAlert() {
             alert("You must login to see your profile")
@@ -12,15 +14,39 @@
 
         function deleteOneSavedHotel(hotelId) {
             var savedHotel = document.getElementById(hotelId);
-            savedHotel.style.display = "none";
-            // send delete request to servlet
+
+            const data = {hotelId: hotelId};
+            fetch('/saveHotel', {
+                method: 'delete',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        savedHotel.style.display = "none";
+                    }
+                }).catch(err => {
+                console.log('delete fail' + err);
+            });
 
         }
 
         function clearAllSavedHotel() {
             var savedHotels = document.getElementById("allSavedHotel");
-            savedHotels.style.display = "none";
-            document.getElementById("savedHotelsMessage").innerText = "Your saved hotels have been cleared"
+            fetch('/saveHotel', {
+                method: 'delete'
+            }).then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        document.getElementById("savedHotelsMessage").innerText = "Your saved hotels have been cleared"
+                        savedHotels.style.display = "none";
+                    }
+                }).catch(err => {
+                console.log('delete fail' + err);
+            });
+
         }
 
         function editReview(reviewId) {
@@ -49,7 +75,7 @@
                     console.log('update successfully')
                     document.getElementById('titleText' + reviewId).innerText = title;
                 }).catch(err => {
-                    console.log('update fail');
+                console.log('update fail');
             });
         }
 
@@ -75,41 +101,64 @@
     <link rel="stylesheet" href="../css/rating.css">
 
 </head>
-<>
 
-$script
-<h1>Hello, $username</h1>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+        #if($isLoggedIn)
+        <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        #else
+        <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+        </li>
+        #end
+    </ul>
+</nav>
 
-// change password
+<p hidden>$script</p>
+<h1>Hello, $username, Your Last Login Time is $lastLoginTime</h1>
 <input type="button" value="change password"> <br/>
 
-// change email
 <input type="button" value="change email"> <br/>
 
-// show saved hotel and clear
-// button - clear all
+<div class="w3-panel w3-yellow">
+    <p>Saved Hotel</p>
+</div>
 
 <p id="savedHotelsMessage">Your saved Hotels</p>
 <div id="allSavedHotel">
-    <input type="button" value="Clear" id="clearSavedHotelButton" onclick="clearAllSavedHotel()"> <br/>
+    <input class="w3-button w3-blue" type="button" value="Clear" id="clearSavedHotelButton"
+           onclick="clearAllSavedHotel()"> <br/>
     #foreach($hotel in $hotels)
     <div id="$hotel.id">
         <a href="/hotelDetail?hotelId=$hotel.id">$hotel.name</a>
-        <input type="button" value="Delete This" onclick="deleteOneSavedHotel('$hotel.id')"> <br/>
+        <input type="button" class="w3-button w3-red" value="Delete This" onclick="deleteOneSavedHotel('$hotel.id')">
+        <br/>
         <br/>
     </div>
     #end
 </div>
 
-<br/>-------------Separate Line-----------------<br/>
 
-<p>Your Reviews</p>
+<div class="w3-panel w3-yellow">
+    <p>Review Your Reviews</p>
+</div>
 
 #foreach($review in $reviews)
 <div id="$review.reviewId">
     <div id="titleText$review.reviewId">$review.title</div>
-    <input type="button" value="Edit" onclick="editReview('$review.reviewId')">
-    <input type="button" value="Remove" onclick="removeReview('$review.reviewId')">
+    <input type="button" class="w3-button w3-yellow" value="Edit" onclick="editReview('$review.reviewId')">
+    <input type="button" class="w3-button w3-red" value="Remove" onclick="removeReview('$review.reviewId')">
     <br/>
 
 
@@ -120,7 +169,7 @@ $script
             <textarea id="reviewText$review.reviewId" class="text" cols="82" rows="20"
                       name="reviewText">$review.reviewText</textarea>
         </fieldset>
-        <input type="button" value="Save" onclick="saveReview('$review.reviewId')">
+        <input class="w3-button w3-blue" type="button" value="Save" onclick="saveReview('$review.reviewId')">
     </div>
 
 </div>

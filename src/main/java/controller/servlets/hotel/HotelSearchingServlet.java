@@ -30,14 +30,19 @@ public class HotelSearchingServlet extends MyHttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         initVelocityEngine(request);
         setBasicHtmlResponse(response);
         setReturnHtml("ShowHotels");
+        addAttribute("isLoggedIn", isLoggedIn(request));
         String cityKeyword = request.getParameter("city");
         String nameKeyword = request.getParameter("hotelName");
         List<Hotel> foundHotels = hotelService.findHotelsByKeyWords(cityKeyword, nameKeyword);
-
+        addAttribute("isLoggedIn", isLoggedIn(request));
+        if (foundHotels == null || foundHotels.size() == 0) {
+            addAttribute("script", "<script>alert('Sorry, we do not find any matching hotels.'); window.location.replace(\"/home\");</script>");
+            outPutHtml(response);
+            return;
+        }
         for (Hotel hotel : foundHotels) {
             ReviewService.Rating rating = reviewService.getHotelRatingInfo(hotel.getId());
             if (rating == null) {
@@ -46,34 +51,25 @@ public class HotelSearchingServlet extends MyHttpServlet {
                 hotel.setRating(rating.getAvgRating());
             }
         }
-
-        Collections.sort(foundHotels, new Comparator<Hotel>() {
-            @Override
-            public int compare(Hotel o1, Hotel o2) {
-                if (o1.getRating() != null && o2.getRating() == null) {
-                    return -1;
-                } else if (o1.getRating() == null && o2.getRating() != null) {
-                    return 1;
-                } else if (o1.getRating() == null && o2.getRating() == null) {
-                    return 0;
-                }
-                return o1.getRating().compareTo(o2.getRating()) * -1;
+        Collections.sort(foundHotels, (o1, o2) -> {
+            if (o1.getRating() != null && o2.getRating() == null) {
+                return -1;
+            } else if (o1.getRating() == null && o2.getRating() != null) {
+                return 1;
+            } else if (o1.getRating() == null && o2.getRating() == null) {
+                return 0;
             }
+            return o1.getRating().compareTo(o2.getRating()) * -1;
         });
-
         addAttribute("hotels", foundHotels);
         outPutHtml(response);
-
     }
 
     @Deprecated
     public void originGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
         // return json
         String cityKeyword = request.getParameter("city");
         String nameKeyword = request.getParameter("hotelName");
-
         List<Hotel> foundHotels = hotelService.findHotelsByKeyWords(cityKeyword, nameKeyword);
         setJsonResponse(response);
         PrintWriter out = response.getWriter();
@@ -101,5 +97,4 @@ public class HotelSearchingServlet extends MyHttpServlet {
         }
         out.flush();
     }
-
 }
