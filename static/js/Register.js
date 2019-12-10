@@ -4,7 +4,7 @@ function register() {
     let pass = document.getElementById('password').value;
     let email = document.getElementById("email").value;
 
-    const regex = /(?=.*\d)(?=.*[a-z])(?=.*[@#$%.\/]){5,10}/gm;
+    const regex = /^(?=.*\\d)(?=.*[A-Za-z])(?=.*[@#$%.]){5,10}$/gm;
     if (regex.exec(pass) == null) {
         alert("Password does not follow the rule")
         return;
