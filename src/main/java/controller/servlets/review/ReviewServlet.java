@@ -86,6 +86,7 @@ public class ReviewServlet extends MyHttpServlet {
         setReturnHtml("HotelDetail");
         String script = "<script>alert('Successfully Added Review'); window.location.replace('/hotelDetail?hotelId=" + hotelId + "'); </script>";
         addAttribute("script", script);
+        addAttribute("isLoggedIn", isLoggedIn(request));
         outPutHtml(response);
     }
 
