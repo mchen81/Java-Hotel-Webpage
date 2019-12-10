@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 
 public class MyController {
 
-    public MyController(final int PORT) throws Exception {
+    public MyController(final int PORT) {
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         // Set Context Handler
@@ -51,7 +51,12 @@ public class MyController {
         // attractions
         //
         server.setHandler(contextHandler);
-        server.start();
-        server.join();
+        try {
+            server.start();
+            server.join();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Server Error");
+        }
+
     }
 }

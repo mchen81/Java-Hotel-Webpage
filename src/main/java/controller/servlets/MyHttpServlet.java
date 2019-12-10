@@ -15,6 +15,9 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * my http servlet for all servlets to extend
+ */
 public abstract class MyHttpServlet extends HttpServlet {
 
     private VelocityContext context;
@@ -28,11 +31,16 @@ public abstract class MyHttpServlet extends HttpServlet {
     private static final String prefix = "static/html/";
     private static final String suffix = ".html";
 
+    /**
+     * inititial velocity engine, if return html page is produced by velocity, must do this
+     * @param request
+     */
     protected void initVelocityEngine(HttpServletRequest request) {
         context = new VelocityContext();
         engine = (VelocityEngine) request.getServletContext().getAttribute("templateEngine");
         stringWriter = new StringWriter();
     }
+
 
     protected void setBasicHtmlResponse(HttpServletResponse response) {
         response.setContentType("text/html");
@@ -44,27 +52,55 @@ public abstract class MyHttpServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    /**
+     * set which html in file name will return
+     * @param htmlFileName
+     */
     protected void setReturnHtml(String htmlFileName) {
         template = engine.getTemplate(prefix + htmlFileName + suffix);
     }
 
+    /**
+     * set which html in path will return
+     * @param htmlPath
+     */
     protected void setReturnHtmlPath(String htmlPath) {
         template = engine.getTemplate(htmlPath);
     }
 
+    /**
+     * add attribute to velocity context
+     * @param attribute a  attribute  that for velocity access in front end
+     * @param object
+     */
     protected void addAttribute(String attribute, Object object) {
         context.put(attribute, object);
     }
 
+    /**
+     * get the current string in velocity
+     * @return
+     */
     protected String getOutput() {
         template.merge(context, stringWriter);
         return stringWriter.toString();
     }
 
+    /**
+     * out put the velocity
+     * @param response
+     * @throws IOException
+     */
     protected void outPutHtml(HttpServletResponse response) throws IOException {
         response.getWriter().println(getOutput());
     }
 
+    /**
+     * if request is from ajax, use this method to parse request's body to a map
+     * @param bufferedReader request.gerReader()
+     * @return a map as <parameter, value>
+     * @throws IOException
+     */
     protected Map<String, String> getAjaxRequestParameterMap(BufferedReader bufferedReader) throws IOException {
         Map<String, String> parameterMap = new HashMap<>();
         String line;
@@ -81,6 +117,11 @@ public abstract class MyHttpServlet extends HttpServlet {
         return parameterMap;
     }
 
+    /**
+     * see if user is logged in
+     * @param request
+     * @return boolean
+     */
     protected boolean isLoggedIn(HttpServletRequest request) {
         Long userId = (Long) request.getSession().getAttribute("userId");
         if (userId == null || userId <= 1) {

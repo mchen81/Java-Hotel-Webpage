@@ -1,5 +1,8 @@
 package service;
 
+/**
+ * this Single containing three different services, all services have to be accessed by this class
+ */
 public class ServicesSingleton {
 
     private static HotelService hotelService = new HotelService();

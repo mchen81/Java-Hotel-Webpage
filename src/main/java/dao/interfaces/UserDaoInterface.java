@@ -32,5 +32,9 @@ public interface UserDaoInterface {
      */
     void modifyUserProfile(User user);
 
+    /**
+     * update the the last login time
+     * @param id user's id
+     */
     void updateLastLoginTime(long id);
 }
