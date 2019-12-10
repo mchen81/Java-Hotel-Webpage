@@ -20,6 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This class help parse input data to Database
+ */
 public class JsonParsingUtil {
 
     public static List<HotelJsonObject> parseHotelJsonFile(String filename) {
