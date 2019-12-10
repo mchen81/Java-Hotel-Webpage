@@ -62,7 +62,10 @@ public class ReviewServlet extends MyHttpServlet {
         String reviewText = request.getParameter("reviewText");
         String rate = request.getParameter("rate");
         if (hotelId == null || title == null || reviewText == null || rate == null || title.isBlank() || reviewText.isBlank()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            setReturnHtml("HotelDetail");
+            String script = "<script>alert('You must write both title and review'); window.location.replace('/hotelDetail?hotelId=" + hotelId + "'); </script>";
+            addAttribute("script", script);
+            outPutHtml(response);
             return;
         }
         setJsonResponse(response);

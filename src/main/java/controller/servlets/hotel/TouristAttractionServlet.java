@@ -34,6 +34,7 @@ public class TouristAttractionServlet extends MyHttpServlet {
         if (touristAttractions == null || touristAttractions.size() == 0) {
             jsonWriter.name("success").value(false);
             jsonWriter.name("message").value("No Attractions Found");
+            jsonWriter.name("touristAttractions").value("");
         } else {
             jsonWriter.name("success").value(true);
             jsonWriter.name("message").value(String.format("%d Attractions Found", touristAttractions.size()));

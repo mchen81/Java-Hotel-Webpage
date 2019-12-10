@@ -80,10 +80,10 @@ public class SaveHotelServlet extends MyHttpServlet {
         System.out.println(userId);
         JsonWriter jsonWriter = new JsonWriter(response.getWriter());
         setJsonResponse(response);
-        if (userId != null && hotelId == null) {
+        if (userId != null && hotelId.isBlank()) {
             userService.clearSavedHotel(userId.toString());
             jsonWriter.beginObject().name("success").value(true).endObject();
-        } else if (userId != null && hotelId != null) {
+        } else if (userId != null && !hotelId.isBlank()) {
             userService.removeOneSavedHotel(userId.toString(), hotelId);
             jsonWriter.beginObject().name("success").value(true).endObject();
         } else {
