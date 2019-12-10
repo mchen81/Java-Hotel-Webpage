@@ -62,7 +62,7 @@ public class UserProfileServlet extends MyHttpServlet {
             if (lastLoginTime == null) {
                 addAttribute("lastLoginTime", "Welcome!");
             } else {
-                addAttribute("lastLoginTime", "Your last time login time is " + lastLoginTime);
+                addAttribute("lastLoginTime", "Your last login time is " + lastLoginTime);
             }
             // find hotel
             List<String> hotelIds = new ArrayList<>(userService.getSavedHotels(userId.toString()));

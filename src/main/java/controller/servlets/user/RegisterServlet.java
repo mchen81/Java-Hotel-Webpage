@@ -42,7 +42,7 @@ public class RegisterServlet extends MyHttpServlet {
         Map<String, String> parameterMap = getAjaxRequestParameterMap(request.getReader());
 
         String password = parameterMap.get("password");
-        final String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[@#$%.]){5,10}$";
+        final String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&/])[A-Za-z\\d$@$!%*#?&]{5,10}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         boolean isPasswordOk = false;
