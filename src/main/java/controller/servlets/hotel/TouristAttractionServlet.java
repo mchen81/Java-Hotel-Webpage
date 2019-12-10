@@ -21,6 +21,13 @@ public class TouristAttractionServlet extends MyHttpServlet {
         hotelService = ServicesSingleton.getHotelService();
     }
 
+    /**
+     * Return Json of attractions
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

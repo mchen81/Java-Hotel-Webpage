@@ -15,9 +15,21 @@ import java.util.List;
 
 public class HotelDetailServlet extends MyHttpServlet {
 
-    private HotelServiceInterface hotelService = ServicesSingleton.getHotelService();
-    private ReviewServiceInterface reviewService = ServicesSingleton.getReviewService();
+    private HotelServiceInterface hotelService;
+    private ReviewServiceInterface reviewService;
 
+    public HotelDetailServlet() {
+        hotelService = ServicesSingleton.getHotelService();
+        reviewService = ServicesSingleton.getReviewService();
+    }
+
+    /**
+     * Get Hotel Detail, refer to HotelDetail.html
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         initVelocityEngine(request);

@@ -27,6 +27,13 @@ public class SaveHotelServlet extends MyHttpServlet {
         this.hotelService = ServicesSingleton.getHotelService();
     }
 
+    /**
+     * present user's saved hotels
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

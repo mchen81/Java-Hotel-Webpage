@@ -11,8 +11,13 @@ import java.sql.SQLException;
 
 public class DaoUtil {
 
+    /** JDBC's basic info*/
     private static DataSource dataSource = new DataSource();
 
+    /**
+     * generate JDBC connection
+     * @return a Connection
+     */
     public static Connection getConnection() {
         try {
             Class.forName(dataSource.driver);

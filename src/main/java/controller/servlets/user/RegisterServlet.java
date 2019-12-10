@@ -4,6 +4,7 @@ import com.google.gson.stream.JsonWriter;
 import controller.servlets.MyHttpServlet;
 import dao.bean.User;
 import exceptions.UserNameHasExistedException;
+import service.ServicesSingleton;
 import service.UserService;
 import service.interfaces.UserServiceInterface;
 
@@ -23,7 +24,7 @@ public class RegisterServlet extends MyHttpServlet {
     private UserServiceInterface userService;
 
     public RegisterServlet() {
-        userService = new UserService();
+        userService = ServicesSingleton.getUserService();
     }
 
     @Override
@@ -41,7 +42,7 @@ public class RegisterServlet extends MyHttpServlet {
         Map<String, String> parameterMap = getAjaxRequestParameterMap(request.getReader());
 
         String password = parameterMap.get("password");
-        final String regex = "^(?=.*\\\\d)(?=.*[a-z])(?=.*[@#$%.]){5,10}$";
+        final String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[@#$%.]){5,10}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         boolean isPasswordOk = false;

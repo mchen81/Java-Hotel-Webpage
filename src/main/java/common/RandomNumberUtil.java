@@ -3,6 +3,9 @@ package common;
 import java.security.SecureRandom;
 import java.util.Random;
 
+/**
+ * Generate Random Number, for review id and password salt
+ */
 public class RandomNumberUtil {
 
     private static SecureRandom random = new SecureRandom();

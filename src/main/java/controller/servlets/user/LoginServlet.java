@@ -28,6 +28,12 @@ public class LoginServlet extends MyHttpServlet {
         this.userService = new UserService();
     }
 
+    /**
+     * present login page
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         initVelocityEngine(request);
@@ -40,6 +46,12 @@ public class LoginServlet extends MyHttpServlet {
         outPutHtml(response);
     }
 
+    /**
+     * If login successfully, set session
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         initVelocityEngine(request);
         HttpSession session = request.getSession();

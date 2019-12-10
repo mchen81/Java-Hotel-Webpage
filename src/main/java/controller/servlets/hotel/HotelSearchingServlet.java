@@ -28,6 +28,13 @@ public class HotelSearchingServlet extends MyHttpServlet {
         reviewService = ServicesSingleton.getReviewService();
     }
 
+    /**
+     * Search Hotel, and show hotels matched the keywords
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         initVelocityEngine(request);
