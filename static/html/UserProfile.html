@@ -39,6 +39,9 @@
         }
 
         function clearAllSavedHotel() {
+            var sure = confirm('Are you sure?');
+            if(!sure) return;
+
             var savedHotels = document.getElementById("allSavedHotel");
             const data = {hotelId: ""};
             fetch('/saveHotel', {
@@ -87,6 +90,9 @@
         }
 
         function removeReview(reviewId) {
+            var sure = confirm('Are you sure?');
+            if(!sure) return;
+
             var editForm = document.getElementById(reviewId);
             editForm.style.display = "none";
             const data = {reviewId: reviewId}
@@ -140,9 +146,7 @@
 
         <div class="col-sm-8 text-left">
             <h1>Hello, $username</h1>
-            <h3>Your last log in time is $lastLoginTime</h3>
-
-            <button class="btn btn-primary" data-toggle="collapse" data-target="#changePassword">Change Password
+            <h3>$lastLoginTime</h3>
             </button>
             <br/>
             <br/>

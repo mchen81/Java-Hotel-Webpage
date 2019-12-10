@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.TreeSet;
 
 public class HomeServlet extends MyHttpServlet {
 
@@ -26,6 +27,11 @@ public class HomeServlet extends MyHttpServlet {
         setBasicHtmlResponse(response);
         setReturnHtml("HomePage");
         List<Hotel> hotels = hotelService.findAllHotels();
+        TreeSet<String> cities = new TreeSet<>();
+        for (Hotel hotel : hotels) {
+            cities.add(hotel.getCity());
+        }
+        addAttribute("cities", cities);
         addAttribute("isLoggedIn", isLoggedIn(request));
         addAttribute("hotels", hotels);
         outPutHtml(response);

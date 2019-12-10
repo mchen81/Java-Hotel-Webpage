@@ -62,6 +62,9 @@
             }).then(res => res.json())
                 .then(data => {
                     if (data.success == true) {
+                        var tbody = document.getElementById("tb");
+                        tbody.innerText ="";
+
                         alert(data.message);
                         for (i in data.touristAttractions) {
                             console.log(data.touristAttractions[i].name);
@@ -79,9 +82,7 @@
                             tr.appendChild(td1);
                             tr.appendChild(td2);
                             tr.appendChild(td3);
-
-                            var element = document.getElementById("tb");
-                            element.appendChild(tr);
+                            tbody.appendChild(tr);
 
                         }
                         var attractions = document.getElementById("attractions");

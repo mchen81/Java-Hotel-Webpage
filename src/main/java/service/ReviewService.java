@@ -82,6 +82,9 @@ public class ReviewService implements ReviewServiceInterface {
         review.setSubmissionTime(Timestamp.valueOf(LocalDateTime.now()));
         reviewDao.addReview(review);
         reviewsCache.put(reviewId, review);
+        if (!reviewsMapCache.containsKey(review.getHotelId())) {
+            reviewsMapCache.put(review.getHotelId(), new TreeSet<>());
+        }
         reviewsMapCache.get(review.getHotelId()).add(review);
         hotelsAvgRatingMap.get(review.getHotelId()).add(review.getRatingOverall());
         return reviewId;
@@ -120,10 +123,10 @@ public class ReviewService implements ReviewServiceInterface {
 
     private String generateNewReviewId() {
         String reviewId = RandomNumberUtil.generateRandomString(24);
-        if (reviewsCache.keySet().contains(reviewId.toString())) {
+        if (reviewsCache.keySet().contains(reviewId)) {
             return generateNewReviewId();
         }
-        return reviewId.toString();
+        return reviewId;
     }
 
     public static class Rating {

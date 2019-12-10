@@ -22,9 +22,9 @@
             padding: 0;
         }
 
-         body {
-             background-color: cornflowerblue;
-         }
+        body {
+            background-color: cornflowerblue;
+        }
     </style>
 
 </head>
@@ -57,11 +57,18 @@
         <div class="col-sm-12">
             <div class="content">
                 <br/>
-                <form action="/search" method="get">
-                    <input type="text" name="city" class="form-control" placeholder="CITY">
-                    <input type="text" name="hotelName" class="form-control" placeholder="NAME">
-                    <button class="btn" type="submit">Search</button>
-                </form>
+                <div class="form-group">
+                    <form action="/search" method="get">
+                        <select class="form-control" id="city" class="form-control" name="city">
+                            <option selected>Select A City</option>
+                            #foreach($city in $cities)
+                            <option value="$city">$city</option>
+                            #end
+                        </select>
+                        <input type="text" name="hotelName" class="form-control" placeholder="NAME">
+                        <button class="btn" type="submit">Search</button>
+                    </form>
+                </div>
                 <br/>
             </div>
         </div>
