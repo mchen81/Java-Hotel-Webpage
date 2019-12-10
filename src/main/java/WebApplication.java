@@ -9,7 +9,7 @@ public class WebApplication {
 
     public static void main(String[] args) {
 
-        if (args == null || args.length != 2 || args[0].equals("-port")) {
+        if (args == null || args.length != 2 || !args[0].equals("-port")) {
             throw new IllegalArgumentException("Wrong Argument, It Must be -port [port]");
         }
         int port;
