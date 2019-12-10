@@ -86,7 +86,13 @@ public class ReviewService implements ReviewServiceInterface {
             reviewsMapCache.put(review.getHotelId(), new TreeSet<>());
         }
         reviewsMapCache.get(review.getHotelId()).add(review);
-        hotelsAvgRatingMap.get(review.getHotelId()).add(review.getRatingOverall());
+        if (hotelsAvgRatingMap.containsKey(review.getHotelId())) {
+            hotelsAvgRatingMap.get(review.getHotelId()).add(review.getRatingOverall());
+        } else {
+            hotelsAvgRatingMap.put(review.getHotelId(), new Rating(review.getRatingOverall()));
+        }
+
+
         return reviewId;
     }
 
