@@ -16,9 +16,7 @@ import java.nio.file.Paths;
 
 public class MyController {
 
-    public static final int PORT = 8080;
-
-    public MyController() throws Exception {
+    public MyController(final int PORT) throws Exception {
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         // Set Context Handler

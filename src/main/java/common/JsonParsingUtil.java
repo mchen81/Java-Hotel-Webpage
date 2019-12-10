@@ -60,15 +60,13 @@ public class JsonParsingUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        //hotelsIntoDb();
-        updateHotelDB();
-        //reviewsToDB();
+        hotelsIntoDb();
+        //updateHotelDB();
+        reviewsToDB();
     }
 
     public static void hotelsIntoDb() throws Exception {
-        //DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?currentSchema=final_project", "root", "");
+        Connection con = DaoUtil.getConnection();
         CallableStatement callableStatement = con.prepareCall("{Call final_project.insertHotels(?,?,?,?,?,?,?,?)}");
         for (HotelJsonObject hotel : parseHotelJsonFile("")) {
             callableStatement.setInt(1, hotel.getId());
@@ -98,7 +96,6 @@ public class JsonParsingUtil {
 
     public static void reviewsToDB() throws Exception {
         Set<String> keySet = new HashSet<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DaoUtil.getConnection();
         CallableStatement callableStatement = con.prepareCall("{Call insertReviews(?,?,?,?,?,?,?)}");
         for (ReviewJsonObject review : parseReviewJsonFiles("")) {

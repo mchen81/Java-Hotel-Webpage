@@ -19,6 +19,7 @@ public class ConnectionTest {
             System.out.println("Successful Connection: " + resultSet.getString(1));
         } catch (SQLException e) {
             System.out.println("Connection fail: " + e.getCause());
+            throw new IllegalArgumentException("Connection fail:" + e);
         }
     }
 }
