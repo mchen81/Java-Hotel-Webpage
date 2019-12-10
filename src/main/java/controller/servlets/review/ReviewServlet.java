@@ -61,7 +61,7 @@ public class ReviewServlet extends MyHttpServlet {
         String title = request.getParameter("title");
         String reviewText = request.getParameter("reviewText");
         String rate = request.getParameter("rate");
-        if (hotelId == null || title == null || reviewText == null || rate == null || title.isBlank() || reviewText.isBlank()) {
+        if (hotelId == null || title == null || reviewText == null || rate == null || title.isEmpty() || reviewText.isEmpty()) {
             setReturnHtml("HotelDetail");
             String script = "<script>alert('You must write both title and review'); window.location.replace('/hotelDetail?hotelId=" + hotelId + "'); </script>";
             addAttribute("script", script);
@@ -71,7 +71,7 @@ public class ReviewServlet extends MyHttpServlet {
         setJsonResponse(response);
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
-        if (userId == null || userId.toString().isBlank()) {
+        if (userId == null || userId.toString().isEmpty()) {
             userId = 1L;
         }
         Review review = new Review();
@@ -98,7 +98,7 @@ public class ReviewServlet extends MyHttpServlet {
         String reviewId = parameterMap.get("reviewId");
         String title = parameterMap.get("title");
         String reviewText = parameterMap.get("reviewText");
-        if (reviewId == null || title == null || title.isBlank() || reviewText == null || reviewText.isBlank()) {
+        if (reviewId == null || title == null || title.isEmpty() || reviewText == null || reviewText.isEmpty()) {
             jsonWriter.beginObject().name("success").value(false).endObject();
             return;
         }

@@ -37,7 +37,7 @@ public class HotelDetailServlet extends MyHttpServlet {
         setReturnHtml("HotelDetail");
         addAttribute("isLoggedIn", isLoggedIn(request));
         String hotelId = request.getParameter("hotelId");
-        if (hotelId == null || hotelId.isBlank()) {
+        if (hotelId == null || hotelId.isEmpty()) {
             addAttribute("script", "<script>alert('No Hotel Detail Found')</script>");
         }
 
